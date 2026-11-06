@@ -13,15 +13,21 @@ import {
 import { eq } from "drizzle-orm";
 
 export async function runSeed() {
-  console.log("🌱 Starting Inkwell Studio database seeding (Kenyan Context)...");
+  console.log(
+    "🌱 Starting Inkwell Studio database seeding (Kenyan Context)...",
+  );
 
   // Attempt TimescaleDB hypertable setup if running against full postgres/timescale
   try {
     await db.execute(TIMESCALEDB_INIT_SQL);
-    console.log("✓ TimescaleDB hypertable and continuous aggregates initialized.");
+    console.log(
+      "✓ TimescaleDB hypertable and continuous aggregates initialized.",
+    );
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
-    console.warn(`! Note on TimescaleDB init: ${message}. Continuing with standard relational tables.`);
+    console.warn(
+      `! Note on TimescaleDB init: ${message}. Continuing with standard relational tables.`,
+    );
   }
 
   // 1. Synthetic Developer User (Chris, Nairobi)
@@ -31,7 +37,8 @@ export async function runSeed() {
       id: "user_chris_nairobi",
       email: "chris@inkwell.studio",
       name: "Chris Odhiambo",
-      avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
+      avatarUrl:
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
     })
     .onConflictDoUpdate({
       target: users.id,
@@ -78,7 +85,8 @@ export async function runSeed() {
     .values({
       workspaceId: workspace.id,
       name: "Makala ya Teknolojia Afrika Mashariki",
-      description: "Hutengeneza makala ya kina kwa lugha ya Kiswahili fasaha kuhusu maendeleo ya kiteknolojia na biashara Afrika Mashariki.",
+      description:
+        "Hutengeneza makala ya kina kwa lugha ya Kiswahili fasaha kuhusu maendeleo ya kiteknolojia na biashara Afrika Mashariki.",
       contentType: "blog",
       language: "sw",
     })
@@ -111,7 +119,8 @@ export async function runSeed() {
     .values({
       workspaceId: workspace.id,
       name: "USAID East Africa Grant Proposal",
-      description: "Generates institutional grant proposals aligned with East African development frameworks, theory of change, and regional KPIs.",
+      description:
+        "Generates institutional grant proposals aligned with East African development frameworks, theory of change, and regional KPIs.",
       contentType: "grant_proposal",
       language: "en",
     })
@@ -128,7 +137,8 @@ export async function runSeed() {
       userPromptTemplate:
         "Draft a comprehensive grant application for {{projectName}} addressing {{targetCommunity}} in Kenya. Target budget: {{budgetKes}} KES.",
       isActive: true,
-      changeSummary: "Initial version for USAID and regional development funds.",
+      changeSummary:
+        "Initial version for USAID and regional development funds.",
       createdById: adminUser.id,
     })
     .returning();
@@ -147,7 +157,12 @@ export async function runSeed() {
       {
         type: "heading",
         attrs: { level: 1 },
-        content: [{ type: "text", text: "Mfumo wa Ushirika wa Kilimo cha Kisasa Kenya" }],
+        content: [
+          {
+            type: "text",
+            text: "Mfumo wa Ushirika wa Kilimo cha Kisasa Kenya",
+          },
+        ],
       },
       {
         type: "paragraph",
@@ -211,4 +226,3 @@ if (typeof process !== "undefined" && process.argv[1]?.includes("seed")) {
       process.exit(1);
     });
 }
-

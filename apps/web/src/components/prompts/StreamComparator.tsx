@@ -21,11 +21,14 @@ interface VariantResult {
   formattedUsd: string;
 }
 
-const SWAHILI_COMPARE_TOPIC = "Ujumuishaji wa Teknolojia ya Kilimo Kaunti ya Nakuru";
+const SWAHILI_COMPARE_TOPIC =
+  "Ujumuishaji wa Teknolojia ya Kilimo Kaunti ya Nakuru";
 const ENGLISH_COMPARE_TOPIC = "Agritech Digital Integration in Nakuru County";
 
-const SWAHILI_COMPARE_CONTEXT = "Ushirika wa wakulima 450, bajeti ya KSh 2,500,000.";
-const ENGLISH_COMPARE_CONTEXT = "Cooperative of 450 smallholders, budget KSh 2,500,000.";
+const SWAHILI_COMPARE_CONTEXT =
+  "Ushirika wa wakulima 450, bajeti ya KSh 2,500,000.";
+const ENGLISH_COMPARE_CONTEXT =
+  "Cooperative of 450 smallholders, budget KSh 2,500,000.";
 
 export function StreamComparator({
   promptName,
@@ -35,27 +38,39 @@ export function StreamComparator({
   const isSwahili = language === "sw";
 
   const [versionIdA, setVersionIdA] = useState(versions[0]?.id || "");
-  const [versionIdB, setVersionIdB] = useState(versions[1]?.id || versions[0]?.id || "");
+  const [versionIdB, setVersionIdB] = useState(
+    versions[1]?.id || versions[0]?.id || "",
+  );
 
   const [topic, setTopic] = useState(
-    isSwahili ? SWAHILI_COMPARE_TOPIC : ENGLISH_COMPARE_TOPIC
+    isSwahili ? SWAHILI_COMPARE_TOPIC : ENGLISH_COMPARE_TOPIC,
   );
   const [context, setContext] = useState(
-    isSwahili ? SWAHILI_COMPARE_CONTEXT : ENGLISH_COMPARE_CONTEXT
+    isSwahili ? SWAHILI_COMPARE_CONTEXT : ENGLISH_COMPARE_CONTEXT,
   );
-  const [tone, setTone] = useState<"professional" | "editorial" | "conversational" | "urgent">("professional");
+  const [tone, setTone] = useState<
+    "professional" | "editorial" | "conversational" | "urgent"
+  >("professional");
   const [length, setLength] = useState<"short" | "medium" | "long">("medium");
 
   // Synchronize defaults on language change if user hasn't typed custom inputs
   React.useEffect(() => {
     setTopic((prev) => {
-      if (prev === SWAHILI_COMPARE_TOPIC || prev === ENGLISH_COMPARE_TOPIC || !prev) {
+      if (
+        prev === SWAHILI_COMPARE_TOPIC ||
+        prev === ENGLISH_COMPARE_TOPIC ||
+        !prev
+      ) {
         return isSwahili ? SWAHILI_COMPARE_TOPIC : ENGLISH_COMPARE_TOPIC;
       }
       return prev;
     });
     setContext((prev) => {
-      if (prev === SWAHILI_COMPARE_CONTEXT || prev === ENGLISH_COMPARE_CONTEXT || !prev) {
+      if (
+        prev === SWAHILI_COMPARE_CONTEXT ||
+        prev === ENGLISH_COMPARE_CONTEXT ||
+        !prev
+      ) {
         return isSwahili ? SWAHILI_COMPARE_CONTEXT : ENGLISH_COMPARE_CONTEXT;
       }
       return prev;
@@ -122,16 +137,22 @@ export function StreamComparator({
           <div className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-zinc-700 dark:text-zinc-300" />
             <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-              {isSwahili ? "Majaribio Sambamba ya Matoleo (A/B Testbench)" : "Side-by-Side Prompt A/B Testbench"}
+              {isSwahili
+                ? "Majaribio Sambamba ya Matoleo (A/B Testbench)"
+                : "Side-by-Side Prompt A/B Testbench"}
             </h3>
           </div>
-          <span className="text-xs text-zinc-500 dark:text-zinc-400 font-mono">{promptName}</span>
+          <span className="text-xs text-zinc-500 dark:text-zinc-400 font-mono">
+            {promptName}
+          </span>
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300">
-              {isSwahili ? "Toleo A (Msingi / Baseline)" : "Version A (Baseline)"}
+              {isSwahili
+                ? "Toleo A (Msingi / Baseline)"
+                : "Version A (Baseline)"}
             </label>
             <select
               value={versionIdA}
@@ -140,7 +161,8 @@ export function StreamComparator({
             >
               {versions.map((v) => (
                 <option key={v.id} value={v.id}>
-                  v{v.versionNumber} {v.isActive ? "(Active)" : ""} - {v.changeSummary.slice(0, 24)}...
+                  v{v.versionNumber} {v.isActive ? "(Active)" : ""} -{" "}
+                  {v.changeSummary.slice(0, 24)}...
                 </option>
               ))}
             </select>
@@ -148,7 +170,9 @@ export function StreamComparator({
 
           <div>
             <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300">
-              {isSwahili ? "Toleo B (Mbadala / Challenger)" : "Version B (Challenger)"}
+              {isSwahili
+                ? "Toleo B (Mbadala / Challenger)"
+                : "Version B (Challenger)"}
             </label>
             <select
               value={versionIdB}
@@ -157,18 +181,24 @@ export function StreamComparator({
             >
               {versions.map((v) => (
                 <option key={v.id} value={v.id}>
-                  v{v.versionNumber} {v.isActive ? "(Active)" : ""} - {v.changeSummary.slice(0, 24)}...
+                  v{v.versionNumber} {v.isActive ? "(Active)" : ""} -{" "}
+                  {v.changeSummary.slice(0, 24)}...
                 </option>
               ))}
             </select>
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300">{isSwahili ? "Mtindo" : "Tone"}</label>
+            <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300">
+              {isSwahili ? "Mtindo" : "Tone"}
+            </label>
             <select
               value={tone}
               onChange={(e) =>
-                setTone(e.target.value as "professional" | "editorial" | "conversational" | "urgent")
+                setTone(
+                  e.target.value as
+                    "professional" | "editorial" | "conversational" | "urgent",
+                )
               }
               className="mt-1 w-full rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-1.5 text-xs font-medium text-zinc-800 dark:text-zinc-200 focus:border-zinc-400 dark:focus:border-zinc-600 focus:outline-hidden"
             >
@@ -180,10 +210,14 @@ export function StreamComparator({
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300">{isSwahili ? "Urefu" : "Length"}</label>
+            <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300">
+              {isSwahili ? "Urefu" : "Length"}
+            </label>
             <select
               value={length}
-              onChange={(e) => setLength(e.target.value as "short" | "medium" | "long")}
+              onChange={(e) =>
+                setLength(e.target.value as "short" | "medium" | "long")
+              }
               className="mt-1 w-full rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-1.5 text-xs font-medium text-zinc-800 dark:text-zinc-200 focus:border-zinc-400 dark:focus:border-zinc-600 focus:outline-hidden"
             >
               <option value="short">Short (~300 words)</option>
@@ -220,14 +254,18 @@ export function StreamComparator({
                     ? "Inazalisha Sambamba..."
                     : "Running Concurrent Streams..."
                   : isSwahili
-                  ? "Anza Jaribio la A/B"
-                  : "Run Dual A/B Comparison"}
+                    ? "Anza Jaribio la A/B"
+                    : "Run Dual A/B Comparison"}
               </span>
             </button>
           </div>
         </div>
 
-        {error && <p className="mt-3 text-xs font-medium text-rose-600 dark:text-rose-400">Error: {error}</p>}
+        {error && (
+          <p className="mt-3 text-xs font-medium text-rose-600 dark:text-rose-400">
+            Error: {error}
+          </p>
+        )}
       </div>
 
       {/* Comparison Summary Banner */}
@@ -242,16 +280,21 @@ export function StreamComparator({
               <span className="text-zinc-600 dark:text-zinc-400">
                 {isSwahili
                   ? `Toleo ${comparison.moreEconomical} lina ufanisi bora zaidi wa kiuchumi (Tofauti ya KSh ${Math.abs(
-                      comparison.costDiffKes
+                      comparison.costDiffKes,
                     ).toFixed(4)}).`
                   : `Variant ${comparison.moreEconomical} was more economical (Delta: KSh ${Math.abs(
-                      comparison.costDiffKes
+                      comparison.costDiffKes,
                     ).toFixed(4)} / ${Math.abs(comparison.tokenDiff)} tokens).`}
               </span>
             </div>
 
             <div className="flex items-center gap-3 font-mono text-[11px] font-medium text-zinc-600 dark:text-zinc-400">
-              <span>Token Delta: {comparison.tokenDiff > 0 ? `+${comparison.tokenDiff}` : comparison.tokenDiff}</span>
+              <span>
+                Token Delta:{" "}
+                {comparison.tokenDiff > 0
+                  ? `+${comparison.tokenDiff}`
+                  : comparison.tokenDiff}
+              </span>
               <span>Speed: {comparison.latencyDiffMs}ms</span>
             </div>
           </div>
@@ -265,7 +308,9 @@ export function StreamComparator({
           <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-950/60 px-4 py-2.5">
             <div>
               <span className="rounded-md border border-zinc-200 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-xs font-medium text-zinc-800 dark:text-zinc-200 font-mono">
-                Variant A: v{resultA?.versionNumber || versions.find((v) => v.id === versionIdA)?.versionNumber}
+                Variant A: v
+                {resultA?.versionNumber ||
+                  versions.find((v) => v.id === versionIdA)?.versionNumber}
               </span>
             </div>
 
@@ -294,7 +339,9 @@ export function StreamComparator({
                 </div>
               ) : (
                 <span className="text-zinc-400 dark:text-zinc-500 italic">
-                  {isSwahili ? "Bofya 'Anza Jaribio la A/B' kutazama matokeo ya Toleo A." : "Click Run Dual A/B Comparison to stream Variant A."}
+                  {isSwahili
+                    ? "Bofya 'Anza Jaribio la A/B' kutazama matokeo ya Toleo A."
+                    : "Click Run Dual A/B Comparison to stream Variant A."}
                 </span>
               )}
             </div>
@@ -306,7 +353,9 @@ export function StreamComparator({
           <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-950/60 px-4 py-2.5">
             <div>
               <span className="rounded-md border border-zinc-200 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-xs font-medium text-zinc-800 dark:text-zinc-200 font-mono">
-                Variant B: v{resultB?.versionNumber || versions.find((v) => v.id === versionIdB)?.versionNumber}
+                Variant B: v
+                {resultB?.versionNumber ||
+                  versions.find((v) => v.id === versionIdB)?.versionNumber}
               </span>
             </div>
 
@@ -335,7 +384,9 @@ export function StreamComparator({
                 </div>
               ) : (
                 <span className="text-zinc-400 dark:text-zinc-500 italic">
-                  {isSwahili ? "Bofya 'Anza Jaribio la A/B' kutazama matokeo ya Toleo B." : "Click Run Dual A/B Comparison to stream Variant B."}
+                  {isSwahili
+                    ? "Bofya 'Anza Jaribio la A/B' kutazama matokeo ya Toleo B."
+                    : "Click Run Dual A/B Comparison to stream Variant B."}
                 </span>
               )}
             </div>

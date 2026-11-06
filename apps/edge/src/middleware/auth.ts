@@ -55,7 +55,7 @@ export function authMiddleware(): MiddlewareHandler<{ Bindings: Env }> {
           error: "Unauthorized",
           message: "Authentication token missing or invalid",
         },
-        401
+        401,
       );
     }
 
@@ -73,7 +73,10 @@ export function authMiddleware(): MiddlewareHandler<{ Bindings: Env }> {
       // Verify expiration
       const nowSeconds = Math.floor(Date.now() / 1000);
       if (decodedPayload.exp && decodedPayload.exp < nowSeconds) {
-        return c.json({ error: "Unauthorized", message: "Token has expired" }, 401);
+        return c.json(
+          { error: "Unauthorized", message: "Token has expired" },
+          401,
+        );
       }
 
       const authUser: AuthUser = {

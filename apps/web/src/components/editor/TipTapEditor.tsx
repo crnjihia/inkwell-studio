@@ -15,7 +15,9 @@ interface TipTapEditorProps {
   onAutosave?: (content: JSONContent) => void;
   language: "en" | "sw";
   tone: "professional" | "editorial" | "conversational" | "urgent";
-  onToneChange: (tone: "professional" | "editorial" | "conversational" | "urgent") => void;
+  onToneChange: (
+    tone: "professional" | "editorial" | "conversational" | "urgent",
+  ) => void;
   length: "short" | "medium" | "long";
   onLengthChange: (length: "short" | "medium" | "long") => void;
   onOpenAiDrawer: () => void;
@@ -97,7 +99,8 @@ export function TipTapEditor({
     content: initialContent || defaultContent,
     editorProps: {
       attributes: {
-        class: "focus:outline-hidden prose prose-zinc dark:prose-invert max-w-none min-h-[500px]",
+        class:
+          "focus:outline-hidden prose prose-zinc dark:prose-invert max-w-none min-h-[500px]",
       },
     },
     onUpdate: ({ editor }) => {
@@ -237,8 +240,8 @@ export function TipTapEditor({
                       ? "Inatiririsha..."
                       : "Streaming tokens..."
                     : isSwahili
-                    ? "Rasimu ya AI (Inasubiri ukaguzi)"
-                    : "AI Block (Pending review)"}
+                      ? "Rasimu ya AI (Inasubiri ukaguzi)"
+                      : "AI Block (Pending review)"}
                 </span>
 
                 {tokenCount && (

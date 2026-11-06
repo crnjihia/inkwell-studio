@@ -11,11 +11,11 @@ export function securityHeaders(): MiddlewareHandler {
     c.res.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
     c.res.headers.set(
       "Permissions-Policy",
-      "camera=(), microphone=(), geolocation=(), payment=()"
+      "camera=(), microphone=(), geolocation=(), payment=()",
     );
     c.res.headers.set(
       "Strict-Transport-Security",
-      "max-age=31536000; includeSubDomains; preload"
+      "max-age=31536000; includeSubDomains; preload",
     );
   };
 }

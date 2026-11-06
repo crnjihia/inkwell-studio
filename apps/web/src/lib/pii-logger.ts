@@ -54,10 +54,18 @@ export const piiSafeLogger = {
   warn(message: string, context?: Record<string, unknown>, requestId?: string) {
     emitLog("warn", message, context, requestId);
   },
-  error(message: string, context?: Record<string, unknown>, requestId?: string) {
+  error(
+    message: string,
+    context?: Record<string, unknown>,
+    requestId?: string,
+  ) {
     emitLog("error", message, context, requestId);
   },
-  debug(message: string, context?: Record<string, unknown>, requestId?: string) {
+  debug(
+    message: string,
+    context?: Record<string, unknown>,
+    requestId?: string,
+  ) {
     if (process.env.NODE_ENV !== "production") {
       emitLog("debug", message, context, requestId);
     }
@@ -68,15 +76,13 @@ function emitLog(
   level: LogLevel,
   message: string,
   context?: Record<string, unknown>,
-  requestId?: string
+  requestId?: string,
 ) {
   const sanitizedMessage = redactPii(message);
 
   let sanitizedContext: Record<string, unknown> | undefined;
   if (context) {
-    sanitizedContext = JSON.parse(
-      redactPii(JSON.stringify(context))
-    );
+    sanitizedContext = JSON.parse(redactPii(JSON.stringify(context)));
   }
 
   const logEntry: LogEntry = {
@@ -103,4 +109,3 @@ function emitLog(
     console.log(output);
   }
 }
-

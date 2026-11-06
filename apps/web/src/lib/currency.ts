@@ -45,7 +45,8 @@ export function calculateTokenCost(params: {
   const pricing = MODEL_PRICING[modelId] || DEFAULT_PRICING;
 
   const inputCostUsd = (inputTokens / 1_000_000) * pricing.inputPerMillionUsd;
-  const outputCostUsd = (outputTokens / 1_000_000) * pricing.outputPerMillionUsd;
+  const outputCostUsd =
+    (outputTokens / 1_000_000) * pricing.outputPerMillionUsd;
   const totalCostUsd = inputCostUsd + outputCostUsd;
   const totalCostKes = totalCostUsd * rate;
 
@@ -72,5 +73,3 @@ export function formatUsd(amount: number): string {
 }
 
 export { formatKes as formatKES, formatUsd as formatUSD };
-
-

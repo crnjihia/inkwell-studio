@@ -49,8 +49,8 @@ export function AiBlockActions({
                     ? "Inazalisha..."
                     : "Generating..."
                   : isSwahili
-                  ? "Kagua Pendekezo"
-                  : "Review Suggestion"}
+                    ? "Kagua Pendekezo"
+                    : "Review Suggestion"}
               </span>
               {isStreaming && (
                 <span className="inline-flex h-1.5 w-1.5 animate-ping rounded-full bg-indigo-500" />
@@ -61,7 +61,8 @@ export function AiBlockActions({
               <div className="flex items-center gap-1.5 text-[11px] font-mono text-zinc-400 dark:text-zinc-500">
                 <Coins className="h-3 w-3 text-amber-500" />
                 <span>
-                  {tokenCount.formattedKes || "KSh 0.00"} ({tokenCount.outputTokens} tok)
+                  {tokenCount.formattedKes || "KSh 0.00"} (
+                  {tokenCount.outputTokens} tok)
                 </span>
               </div>
             )}
@@ -85,7 +86,9 @@ export function AiBlockActions({
                 type="button"
                 onClick={onReject}
                 className="flex items-center gap-1 rounded border border-zinc-200 dark:border-zinc-800 px-2.5 py-1 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
-                title={isSwahili ? "Futa pendekezo hili" : "Discard this suggestion"}
+                title={
+                  isSwahili ? "Futa pendekezo hili" : "Discard this suggestion"
+                }
               >
                 <X className="h-3 w-3 text-zinc-400" />
                 <span>{isSwahili ? "Kataa" : "Reject"}</span>
@@ -105,7 +108,11 @@ export function AiBlockActions({
                 type="button"
                 onClick={onAccept}
                 className="flex items-center gap-1 rounded bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 px-3 py-1 text-xs font-medium hover:opacity-90 transition shadow-2xs"
-                title={isSwahili ? "Kubali na weka kwenye makala" : "Accept and merge into document"}
+                title={
+                  isSwahili
+                    ? "Kubali na weka kwenye makala"
+                    : "Accept and merge into document"
+                }
               >
                 <Check className="h-3 w-3" />
                 <span>{isSwahili ? "Kubali" : "Accept"}</span>

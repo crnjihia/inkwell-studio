@@ -20,7 +20,10 @@ interface PromptVersionHistoryProps {
   promptName: string;
   versions: PromptVersionItem[];
   onRollback: (versionId: string, versionNumber: string) => Promise<void>;
-  onViewDiff: (versionA: PromptVersionItem, versionB: PromptVersionItem) => void;
+  onViewDiff: (
+    versionA: PromptVersionItem,
+    versionB: PromptVersionItem,
+  ) => void;
   language: "en" | "sw";
 }
 
@@ -40,7 +43,7 @@ export function PromptVersionHistory({
     const confirmed = window.confirm(
       isSwahili
         ? `Una uhakika unataka kurudisha maagizo haya kwenye Toleo ${version.versionNumber}? Toleo la sasa litazimwa.`
-        : `Are you sure you want to rollback to Version ${version.versionNumber}? The current active version will be deactivated.`
+        : `Are you sure you want to rollback to Version ${version.versionNumber}? The current active version will be deactivated.`,
     );
 
     if (confirmed) {
@@ -62,10 +65,13 @@ export function PromptVersionHistory({
           </div>
           <div>
             <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-              {isSwahili ? "Historia na Kumbukumbu ya Matoleo" : "Version History & Audit Trail"}
+              {isSwahili
+                ? "Historia na Kumbukumbu ya Matoleo"
+                : "Version History & Audit Trail"}
             </h3>
             <p className="text-xs text-zinc-500 dark:text-zinc-400">
-              {promptName} • {versions.length} {isSwahili ? "matoleo yaliyosajiliwa" : "immutable versions"}
+              {promptName} • {versions.length}{" "}
+              {isSwahili ? "matoleo yaliyosajiliwa" : "immutable versions"}
             </p>
           </div>
         </div>
@@ -74,7 +80,8 @@ export function PromptVersionHistory({
           <div className="flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60">
             <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>
-              {isSwahili ? "Toleo Linalotumika Sasa:" : "Active Version:"} v{activeVersion.versionNumber}
+              {isSwahili ? "Toleo Linalotumika Sasa:" : "Active Version:"} v
+              {activeVersion.versionNumber}
             </span>
           </div>
         )}
@@ -131,7 +138,11 @@ export function PromptVersionHistory({
                         title="Compare with active version"
                       >
                         <GitCompare className="h-3.5 w-3.5 text-zinc-500 dark:text-zinc-400" />
-                        <span>{isSwahili ? "Linganisha na ya Sasa" : "Diff with Active"}</span>
+                        <span>
+                          {isSwahili
+                            ? "Linganisha na ya Sasa"
+                            : "Diff with Active"}
+                        </span>
                       </button>
                     )}
 
@@ -143,8 +154,14 @@ export function PromptVersionHistory({
                         className="flex items-center gap-1 rounded-lg border border-amber-500/30 dark:border-amber-500/40 bg-amber-50 dark:bg-amber-950/40 px-2.5 py-1 text-xs font-medium text-amber-700 dark:text-amber-400 transition hover:bg-amber-100 dark:hover:bg-amber-900/60 disabled:opacity-50"
                         title="Set this version active"
                       >
-                        <RotateCcw className={`h-3 w-3 ${rollingBackId === ver.id ? "animate-spin" : ""}`} />
-                        <span>{isSwahili ? "Rejesha Toleo Hili" : "Rollback to This"}</span>
+                        <RotateCcw
+                          className={`h-3 w-3 ${rollingBackId === ver.id ? "animate-spin" : ""}`}
+                        />
+                        <span>
+                          {isSwahili
+                            ? "Rejesha Toleo Hili"
+                            : "Rollback to This"}
+                        </span>
                       </button>
                     )}
                   </div>
@@ -153,7 +170,9 @@ export function PromptVersionHistory({
                 {/* Audit summary */}
                 <div className="mt-3 rounded-lg border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-950/50 p-2.5 text-xs text-zinc-600 dark:text-zinc-300">
                   <span className="font-medium text-zinc-900 dark:text-zinc-100">
-                    {isSwahili ? "Muhtasari wa Mabadiliko (Audit):" : "Change Summary (Audit):"}{" "}
+                    {isSwahili
+                      ? "Muhtasari wa Mabadiliko (Audit):"
+                      : "Change Summary (Audit):"}{" "}
                   </span>
                   <span>{ver.changeSummary}</span>
                 </div>

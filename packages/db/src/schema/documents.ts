@@ -1,4 +1,12 @@
-import { pgTable, text, timestamp, uuid, integer, varchar, jsonb } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+  integer,
+  varchar,
+  jsonb,
+} from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { workspaces, users } from "./users";
 
@@ -11,12 +19,18 @@ export const documents = pgTable("documents", {
   content: jsonb("content").$type<Record<string, unknown>>().notNull(), // TipTap ProseMirror doc JSON
   currentVersion: integer("current_version").default(1).notNull(),
   language: varchar("language", { length: 10 }).default("en").notNull(), // 'en' | 'sw'
-  contentType: varchar("content_type", { length: 32 }).default("blog").notNull(), // 'blog' | 'social' | 'grant_proposal'
+  contentType: varchar("content_type", { length: 32 })
+    .default("blog")
+    .notNull(), // 'blog' | 'social' | 'grant_proposal'
   createdById: varchar("created_by_id", { length: 255 })
     .notNull()
     .references(() => users.id),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
 });
 
 export const documentVersions = pgTable("document_versions", {
@@ -30,7 +44,9 @@ export const documentVersions = pgTable("document_versions", {
   createdById: varchar("created_by_id", { length: 255 })
     .notNull()
     .references(() => users.id),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
 });
 
 export const documentsRelations = relations(documents, ({ one, many }) => ({
@@ -45,14 +61,16 @@ export const documentsRelations = relations(documents, ({ one, many }) => ({
   versions: many(documentVersions),
 }));
 
-export const documentVersionsRelations = relations(documentVersions, ({ one }) => ({
-  document: one(documents, {
-    fields: [documentVersions.documentId],
-    references: [documents.id],
+export const documentVersionsRelations = relations(
+  documentVersions,
+  ({ one }) => ({
+    document: one(documents, {
+      fields: [documentVersions.documentId],
+      references: [documents.id],
+    }),
+    author: one(users, {
+      fields: [documentVersions.createdById],
+      references: [users.id],
+    }),
   }),
-  author: one(users, {
-    fields: [documentVersions.createdById],
-    references: [users.id],
-  }),
-}));
-
+);

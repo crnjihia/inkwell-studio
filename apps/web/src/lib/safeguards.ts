@@ -35,7 +35,10 @@ export const CONTENT_LENGTH_CAPS: Record<string, number> = {
 };
 
 // Sanitizes user-provided topic and context to neutralize prompt injection
-export function sanitizeUserContext(topic: string, context: string): SanitizedInput {
+export function sanitizeUserContext(
+  topic: string,
+  context: string,
+): SanitizedInput {
   const warnings: string[] = [];
   let hasInjection = false;
 
@@ -46,7 +49,9 @@ export function sanitizeUserContext(topic: string, context: string): SanitizedIn
   for (const pattern of INJECTION_PATTERNS) {
     if (pattern.test(cleanTopic) || pattern.test(cleanContext)) {
       hasInjection = true;
-      warnings.push(`Detected injection signature matching pattern: ${pattern.source}`);
+      warnings.push(
+        `Detected injection signature matching pattern: ${pattern.source}`,
+      );
       cleanTopic = cleanTopic.replace(pattern, "[redacted-override]");
       cleanContext = cleanContext.replace(pattern, "[redacted-override]");
     }
@@ -111,7 +116,10 @@ export function moderateContent(text: string): ModerationResult {
 }
 
 // Resolves maximum allowed tokens capped strictly by content type
-export function resolveOutputTokenCap(contentType: string, requestedLength: "short" | "medium" | "long"): number {
+export function resolveOutputTokenCap(
+  contentType: string,
+  requestedLength: "short" | "medium" | "long",
+): number {
   const hardCap = CONTENT_LENGTH_CAPS[contentType] || 2500;
 
   let targetTokens = 1200;
@@ -123,4 +131,3 @@ export function resolveOutputTokenCap(contentType: string, requestedLength: "sho
 
   return Math.min(targetTokens, hardCap);
 }
-

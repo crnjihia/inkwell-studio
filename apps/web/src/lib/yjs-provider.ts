@@ -47,7 +47,7 @@ export class DurableObjectYjsProvider {
           JSON.stringify({
             type: "yjs_update",
             payload: Array.from(update),
-          })
+          }),
         );
       }
     });
@@ -63,7 +63,7 @@ export class DurableObjectYjsProvider {
       const wsProtocol = this.edgeUrl.startsWith("https") ? "wss:" : "ws:";
       const edgeHost = this.edgeUrl.replace(/^https?:\/\//, "");
       const wsUrl = `${wsProtocol}//${edgeHost}/room/${this.documentId}?userId=${encodeURIComponent(
-        this.user.userId
+        this.user.userId,
       )}&name=${encodeURIComponent(this.user.name)}&color=${encodeURIComponent(this.user.color)}`;
 
       const socket = new WebSocket(wsUrl);
@@ -84,12 +84,18 @@ export class DurableObjectYjsProvider {
               // Apply remote update specifying this provider as origin to prevent echo
               Y.applyUpdate(this.doc, update, this);
             }
-          } else if (msg.type === "awareness_update" && Array.isArray(msg.users)) {
+          } else if (
+            msg.type === "awareness_update" &&
+            Array.isArray(msg.users)
+          ) {
             this.activeUsers = msg.users;
             this.notifyAwarenessChange();
           }
         } catch (err) {
-          console.warn("Failed to parse WebSocket message from DocumentRoom:", err);
+          console.warn(
+            "Failed to parse WebSocket message from DocumentRoom:",
+            err,
+          );
         }
       };
 
@@ -102,7 +108,10 @@ export class DurableObjectYjsProvider {
         this.isConnected = false;
       };
     } catch (err) {
-      console.warn("Unable to establish WebSocket connection, falling back to local mode:", err);
+      console.warn(
+        "Unable to establish WebSocket connection, falling back to local mode:",
+        err,
+      );
       this.scheduleReconnect();
     }
   }
@@ -123,7 +132,7 @@ export class DurableObjectYjsProvider {
         JSON.stringify({
           type: "cursor_awareness",
           cursor,
-        })
+        }),
       );
     }
   }
@@ -150,4 +159,3 @@ export class DurableObjectYjsProvider {
     this.onAwarenessChangeCallbacks.clear();
   }
 }
-

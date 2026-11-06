@@ -14,7 +14,9 @@ export interface RateLimiterOptions {
   burstCapacity?: number;
 }
 
-export function rateLimiter(options: RateLimiterOptions = {}): MiddlewareHandler<{ Bindings: Env }> {
+export function rateLimiter(
+  options: RateLimiterOptions = {},
+): MiddlewareHandler<{ Bindings: Env }> {
   return async (c, next) => {
     const rpm = options.rpm || parseInt(c.env.EDGE_RATE_LIMIT_RPM || "60", 10);
     const capacity = options.burstCapacity || rpm;
@@ -40,7 +42,10 @@ export function rateLimiter(options: RateLimiterOptions = {}): MiddlewareHandler
     } else {
       // Refill tokens based on elapsed time
       const elapsedMs = now - bucket.lastRefill;
-      bucket.tokens = Math.min(capacity, bucket.tokens + elapsedMs * refillRatePerMs);
+      bucket.tokens = Math.min(
+        capacity,
+        bucket.tokens + elapsedMs * refillRatePerMs,
+      );
       bucket.lastRefill = now;
     }
 
@@ -50,7 +55,10 @@ export function rateLimiter(options: RateLimiterOptions = {}): MiddlewareHandler
     if (bucket.tokens < 1) {
       c.header("X-RateLimit-Limit", capacity.toString());
       c.header("X-RateLimit-Remaining", "0");
-      c.header("X-RateLimit-Reset", (Math.floor(now / 1000) + resetSeconds).toString());
+      c.header(
+        "X-RateLimit-Reset",
+        (Math.floor(now / 1000) + resetSeconds).toString(),
+      );
       c.header("Retry-After", resetSeconds.toString());
 
       return c.json(
@@ -59,7 +67,7 @@ export function rateLimiter(options: RateLimiterOptions = {}): MiddlewareHandler
           message: `Edge rate limit exceeded (${rpm} requests per minute). Please slow down.`,
           retryAfterSeconds: resetSeconds,
         },
-        429
+        429,
       );
     }
 
@@ -68,7 +76,10 @@ export function rateLimiter(options: RateLimiterOptions = {}): MiddlewareHandler
 
     c.header("X-RateLimit-Limit", capacity.toString());
     c.header("X-RateLimit-Remaining", Math.floor(bucket.tokens).toString());
-    c.header("X-RateLimit-Reset", (Math.floor(now / 1000) + resetSeconds).toString());
+    c.header(
+      "X-RateLimit-Reset",
+      (Math.floor(now / 1000) + resetSeconds).toString(),
+    );
 
     await next();
   };

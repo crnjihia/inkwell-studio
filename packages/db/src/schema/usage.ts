@@ -1,4 +1,12 @@
-import { pgTable, timestamp, uuid, varchar, integer, numeric, index } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  timestamp,
+  uuid,
+  varchar,
+  integer,
+  numeric,
+  index,
+} from "drizzle-orm/pg-core";
 import { relations, sql } from "drizzle-orm";
 import { workspaces, users } from "./users";
 import { generations } from "./generations";
@@ -16,7 +24,9 @@ export const usageEvents = pgTable(
     userId: varchar("user_id", { length: 255 })
       .notNull()
       .references(() => users.id),
-    generationId: uuid("generation_id").references(() => generations.id, { onDelete: "set null" }),
+    generationId: uuid("generation_id").references(() => generations.id, {
+      onDelete: "set null",
+    }),
     modelId: varchar("model_id", { length: 128 }).notNull(),
     inputTokens: integer("input_tokens").notNull(),
     outputTokens: integer("output_tokens").notNull(),
@@ -24,9 +34,12 @@ export const usageEvents = pgTable(
     costUsd: numeric("cost_usd", { precision: 10, scale: 6 }).notNull(),
   },
   (table) => ({
-    workspaceTimeIdx: index("usage_events_workspace_time_idx").on(table.workspaceId, table.time),
+    workspaceTimeIdx: index("usage_events_workspace_time_idx").on(
+      table.workspaceId,
+      table.time,
+    ),
     timeIdx: index("usage_events_time_idx").on(table.time),
-  })
+  }),
 );
 
 export const usageEventsRelations = relations(usageEvents, ({ one }) => ({
@@ -68,4 +81,3 @@ export const TIMESCALEDB_INIT_SQL = sql`
   GROUP BY bucket, workspace_id, model_id
   WITH NO DATA;
 `;
-

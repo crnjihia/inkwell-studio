@@ -1,4 +1,11 @@
-import { pgTable, text, timestamp, uuid, varchar, jsonb } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+  varchar,
+  jsonb,
+} from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { workspaces } from "./users";
 import { documents } from "./documents";
@@ -19,8 +26,12 @@ export const publications = pgTable("publications", {
   language: varchar("language", { length: 10 }).default("en").notNull(), // 'en' | 'sw'
   authorName: varchar("author_name", { length: 255 }).notNull(),
   ogImageUrl: text("og_image_url"),
-  publishedAt: timestamp("published_at", { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  publishedAt: timestamp("published_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
   cachePurgedAt: timestamp("cache_purged_at", { withTimezone: true }),
 });
 
@@ -34,4 +45,3 @@ export const publicationsRelations = relations(publications, ({ one }) => ({
     references: [documents.id],
   }),
 }));
-

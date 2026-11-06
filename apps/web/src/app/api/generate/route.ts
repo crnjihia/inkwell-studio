@@ -25,7 +25,9 @@ const generateRequestSchema = z.object({
   language: z.enum(["en", "sw"]).default("en"),
   topic: z.string().min(3, "Topic must be at least 3 characters"),
   context: z.string().optional().default(""),
-  tone: z.enum(["professional", "editorial", "conversational", "urgent"]).default("professional"),
+  tone: z
+    .enum(["professional", "editorial", "conversational", "urgent"])
+    .default("professional"),
   length: z.enum(["short", "medium", "long"]).default("medium"),
 });
 
@@ -37,10 +39,13 @@ export async function POST(req: NextRequest) {
   try {
     jsonBody = await req.json();
   } catch {
-    return new Response(JSON.stringify({ error: "Invalid JSON request payload" }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ error: "Invalid JSON request payload" }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   }
 
   const parsed = generateRequestSchema.safeParse(jsonBody);
@@ -50,7 +55,7 @@ export async function POST(req: NextRequest) {
         error: "Validation failed",
         details: parsed.error.flatten().fieldErrors,
       }),
-      { status: 422, headers: { "Content-Type": "application/json" } }
+      { status: 422, headers: { "Content-Type": "application/json" } },
     );
   }
 
@@ -72,8 +77,11 @@ export async function POST(req: NextRequest) {
   if (budgetStatus.hardStopActive) {
     piiSafeLogger.warn(
       `Generation blocked by workspace hard-stop policy for ${workspaceId}`,
-      { currentSpendKes: budgetStatus.currentSpendKes, budgetMonthlyKes: budgetStatus.budgetMonthlyKes },
-      requestId
+      {
+        currentSpendKes: budgetStatus.currentSpendKes,
+        budgetMonthlyKes: budgetStatus.budgetMonthlyKes,
+      },
+      requestId,
     );
 
     return new Response(
@@ -82,7 +90,7 @@ export async function POST(req: NextRequest) {
         message: `Monthly budget limit of KSh ${budgetStatus.budgetMonthlyKes.toLocaleString()} reached. Generation blocked by hard-stop policy.`,
         percentage: budgetStatus.percentage,
       }),
-      { status: 403, headers: { "Content-Type": "application/json" } }
+      { status: 403, headers: { "Content-Type": "application/json" } },
     );
   }
 
@@ -92,17 +100,19 @@ export async function POST(req: NextRequest) {
     piiSafeLogger.warn(
       "Prompt injection attempt neutralized in generation request",
       { warnings: sanitization.injectionWarnings },
-      requestId
+      requestId,
     );
   }
 
   // 3. Content Moderation Hook
-  const moderationCheck = moderateContent(`${sanitization.sanitizedTopic} ${sanitization.sanitizedContext}`);
+  const moderationCheck = moderateContent(
+    `${sanitization.sanitizedTopic} ${sanitization.sanitizedContext}`,
+  );
   if (moderationCheck.flagged) {
     piiSafeLogger.warn(
       `Generation request rejected by content moderation: ${moderationCheck.reason}`,
       { category: moderationCheck.category },
-      requestId
+      requestId,
     );
 
     return new Response(
@@ -110,7 +120,7 @@ export async function POST(req: NextRequest) {
         error: "Content policy violation",
         reason: moderationCheck.reason,
       }),
-      { status: 400, headers: { "Content-Type": "application/json" } }
+      { status: 400, headers: { "Content-Type": "application/json" } },
     );
   }
 
@@ -137,7 +147,7 @@ export async function POST(req: NextRequest) {
   piiSafeLogger.info(
     `Starting generation with model ${modelId} for content type ${contentType} [${language}]`,
     { maxTokens },
-    requestId
+    requestId,
   );
 
   const encoder = new TextEncoder();
@@ -171,8 +181,10 @@ export async function POST(req: NextRequest) {
               accumulatedText += chunk.text;
               sendEvent("delta", { text: chunk.text });
             } else if (chunk.type === "usage") {
-              if (chunk.inputTokens !== undefined) inputTokens = chunk.inputTokens;
-              if (chunk.outputTokens !== undefined) outputTokens = chunk.outputTokens;
+              if (chunk.inputTokens !== undefined)
+                inputTokens = chunk.inputTokens;
+              if (chunk.outputTokens !== undefined)
+                outputTokens = chunk.outputTokens;
             }
           }
         } else {
@@ -185,7 +197,7 @@ export async function POST(req: NextRequest) {
               messages: [{ role: "user", content: userMessageContent }],
               stream: true,
             },
-            { signal: abortSignal }
+            { signal: abortSignal },
           );
 
           for await (const messageStreamEvent of responseStream) {
@@ -219,7 +231,7 @@ export async function POST(req: NextRequest) {
         piiSafeLogger.info(
           `Completed generation: in=${inputTokens}, out=${outputTokens}, cost=${cost.formattedKes}`,
           { latencyMs },
-          requestId
+          requestId,
         );
 
         try {
@@ -254,7 +266,11 @@ export async function POST(req: NextRequest) {
             });
           }
         } catch (dbError) {
-          piiSafeLogger.warn("Failed to persist generation record to DB", { error: String(dbError) }, requestId);
+          piiSafeLogger.warn(
+            "Failed to persist generation record to DB",
+            { error: String(dbError) },
+            requestId,
+          );
         }
 
         sendEvent("done", {
@@ -278,8 +294,15 @@ export async function POST(req: NextRequest) {
           return;
         }
 
-        const errorMessage = err instanceof Error ? err.message : "An unexpected AI error occurred";
-        piiSafeLogger.error(`AI Generation failure: ${errorMessage}`, undefined, requestId);
+        const errorMessage =
+          err instanceof Error
+            ? err.message
+            : "An unexpected AI error occurred";
+        piiSafeLogger.error(
+          `AI Generation failure: ${errorMessage}`,
+          undefined,
+          requestId,
+        );
         sendEvent("error", { error: errorMessage });
         controller.close();
       }

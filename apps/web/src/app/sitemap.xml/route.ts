@@ -12,9 +12,7 @@ export async function GET() {
     });
   } catch {
     // Zero-credential offline fallback
-    publishedStories = [
-      { slug: "kilimo-bora-nakuru", updatedAt: new Date() },
-    ];
+    publishedStories = [{ slug: "kilimo-bora-nakuru", updatedAt: new Date() }];
   }
 
   const baseUrl = env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";

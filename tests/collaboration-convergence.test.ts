@@ -33,8 +33,12 @@ describe("Phase 5: Real-time Co-authoring & Yjs CRDT Convergence", () => {
     Y.applyUpdate(docB, updateA2);
 
     // 5. Verify mathematically proven CRDT convergence
-    expect(textA.toString()).toBe("Mradi: Mfumo wa Kilimo Bora Kenya (Kaunti ya Nakuru)");
-    expect(textB.toString()).toBe("Mradi: Mfumo wa Kilimo Bora Kenya (Kaunti ya Nakuru)");
+    expect(textA.toString()).toBe(
+      "Mradi: Mfumo wa Kilimo Bora Kenya (Kaunti ya Nakuru)",
+    );
+    expect(textB.toString()).toBe(
+      "Mradi: Mfumo wa Kilimo Bora Kenya (Kaunti ya Nakuru)",
+    );
     expect(textA.toString()).toBe(textB.toString());
   });
 
@@ -79,7 +83,8 @@ describe("Phase 5: Real-time Co-authoring & Yjs CRDT Convergence", () => {
 
     const docRestored = new Y.Doc();
     Y.applyUpdate(docRestored, snapshot);
-    expect(docRestored.getText("content").toString()).toBe("Maudhui ya majaribio ya mtandao");
+    expect(docRestored.getText("content").toString()).toBe(
+      "Maudhui ya majaribio ya mtandao",
+    );
   });
 });
-

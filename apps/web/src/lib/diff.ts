@@ -64,7 +64,7 @@ export function computeLineDiff(oldText: string, newText: string): DiffLine[] {
 // Compute next semver version string based on current and change type
 export function computeNextSemver(
   currentVersion: string,
-  type: "major" | "minor" | "patch" = "minor"
+  type: "major" | "minor" | "patch" = "minor",
 ): string {
   const parts = currentVersion.split(".").map((n) => parseInt(n, 10));
   const major = isNaN(parts[0]) ? 1 : parts[0];
@@ -79,4 +79,3 @@ export function computeNextSemver(
     return `${major}.${minor}.${patch + 1}`;
   }
 }
-

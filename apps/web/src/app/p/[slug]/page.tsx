@@ -3,7 +3,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { db, publications, eq } from "@inkwell/db";
 import { env } from "@/env";
-import { PublishedArticleReader, type ArticleData } from "@/components/reader/PublishedArticleReader";
+import {
+  PublishedArticleReader,
+  type ArticleData,
+} from "@/components/reader/PublishedArticleReader";
 
 interface PublishedPageProps {
   params: {
@@ -12,7 +15,9 @@ interface PublishedPageProps {
 }
 
 // Generate Dynamic Open Graph & Twitter Metadata
-export async function generateMetadata({ params }: PublishedPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PublishedPageProps): Promise<Metadata> {
   let publication;
   try {
     publication = await db.query.publications.findFirst({
@@ -27,7 +32,8 @@ export async function generateMetadata({ params }: PublishedPageProps): Promise<
       id: "pub_01",
       slug: "kilimo-bora-nakuru",
       title: "Kilimo cha Kisasa Kaunti ya Nakuru",
-      excerpt: "Ubunifu wa kiteknolojia na kilimo cha kisasa katika kaunti za Kenya.",
+      excerpt:
+        "Ubunifu wa kiteknolojia na kilimo cha kisasa katika kaunti za Kenya.",
       authorName: "Chris Odhiambo",
       language: "sw",
       publishedAt: new Date(),
@@ -75,7 +81,9 @@ export async function generateMetadata({ params }: PublishedPageProps): Promise<
   };
 }
 
-export default async function PublishedArticlePage({ params }: PublishedPageProps) {
+export default async function PublishedArticlePage({
+  params,
+}: PublishedPageProps) {
   let publication;
   try {
     publication = await db.query.publications.findFirst({
@@ -95,7 +103,8 @@ export default async function PublishedArticlePage({ params }: PublishedPageProp
         title: "Kilimo cha Kisasa Kaunti ya Nakuru",
         contentHtml:
           "<h1>Kilimo cha Kisasa Kaunti ya Nakuru</h1><p>Mradi huu unalenga kuwawezesha wakulima 400 wa Kenya kupata pembejeo bora na masoko ya kidijitali.</p><blockquote>Ubunifu wa kidijitali ndio nguzo kuu ya kilimo endelevu Afrika Mashariki.</blockquote><p>Kupitia ushirikiano na serikali za kaunti, tunaleta teknolojia inayoeleweka na kuboresha mapato ya kaya.</p>",
-        excerpt: "Ubunifu wa kiteknolojia na kilimo cha kisasa katika kaunti za Kenya.",
+        excerpt:
+          "Ubunifu wa kiteknolojia na kilimo cha kisasa katika kaunti za Kenya.",
         authorName: "Chris Odhiambo",
         language: "sw" as const,
         publishedAt: new Date(),

@@ -13,7 +13,9 @@ export interface BudgetStatus {
 // Track sent alerts in memory to prevent duplicate emails during same billing cycle
 const sentAlertCache = new Set<string>();
 
-export async function checkWorkspaceBudget(workspaceId: string): Promise<BudgetStatus> {
+export async function checkWorkspaceBudget(
+  workspaceId: string,
+): Promise<BudgetStatus> {
   const fallbackStatus: BudgetStatus = {
     allowed: true,
     hardStopActive: false,
@@ -33,7 +35,9 @@ export async function checkWorkspaceBudget(workspaceId: string): Promise<BudgetS
 
     if (!workspace) return fallbackStatus;
 
-    const budgetMonthlyKes = parseFloat(workspace.budgetMonthlyKes || "25000.00");
+    const budgetMonthlyKes = parseFloat(
+      workspace.budgetMonthlyKes || "25000.00",
+    );
     const hardStopEnabled = workspace.hardStopEnabled;
 
     // Sum monthly usage for the current calendar month
@@ -46,11 +50,12 @@ export async function checkWorkspaceBudget(workspaceId: string): Promise<BudgetS
       })
       .from(usageEvents)
       .where(
-        sql`${usageEvents.workspaceId} = ${workspaceId} AND ${usageEvents.time} >= ${firstDayOfMonth}`
+        sql`${usageEvents.workspaceId} = ${workspaceId} AND ${usageEvents.time} >= ${firstDayOfMonth}`,
       );
 
     const currentSpendKes = parseFloat(result[0]?.totalSpendKes || "0");
-    const percentage = budgetMonthlyKes > 0 ? (currentSpendKes / budgetMonthlyKes) * 100 : 0;
+    const percentage =
+      budgetMonthlyKes > 0 ? (currentSpendKes / budgetMonthlyKes) * 100 : 0;
 
     let alertLevel: "ok" | "warning_80" | "exceeded_100" = "ok";
     let hardStopActive = false;
@@ -70,16 +75,20 @@ export async function checkWorkspaceBudget(workspaceId: string): Promise<BudgetS
       sentAlertCache.add(alertKey);
 
       const notificationAdapter = getNotificationAdapter();
-      await notificationAdapter.sendBudgetAlert({
-        workspaceId,
-        workspaceName: workspace.name,
-        recipientEmail: workspace.owner?.email || "chris@inkwell.studio",
-        recipientName: workspace.owner?.name || "Chris Odhiambo",
-        budgetKes: budgetMonthlyKes,
-        currentSpendKes,
-        percentage,
-        alertType: alertLevel,
-      }).catch((err) => console.warn("Failed to dispatch budget alert notification:", err));
+      await notificationAdapter
+        .sendBudgetAlert({
+          workspaceId,
+          workspaceName: workspace.name,
+          recipientEmail: workspace.owner?.email || "chris@inkwell.studio",
+          recipientName: workspace.owner?.name || "Chris Odhiambo",
+          budgetKes: budgetMonthlyKes,
+          currentSpendKes,
+          percentage,
+          alertType: alertLevel,
+        })
+        .catch((err) =>
+          console.warn("Failed to dispatch budget alert notification:", err),
+        );
     }
 
     return {
@@ -91,8 +100,10 @@ export async function checkWorkspaceBudget(workspaceId: string): Promise<BudgetS
       alertLevel,
     };
   } catch (error) {
-    console.warn("Budget check encountered an error, defaulting to permissive:", error);
+    console.warn(
+      "Budget check encountered an error, defaulting to permissive:",
+      error,
+    );
     return fallbackStatus;
   }
 }
-

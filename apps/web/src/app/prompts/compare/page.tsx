@@ -68,7 +68,9 @@ export default function PromptsComparePage() {
                 <GitCompare className="h-4 w-4" />
               </div>
               <h1 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 tracking-tight">
-                {isSwahili ? "Ulinganishaji Sambamba wa Matoleo" : "Side-by-Side Prompt Comparator"}
+                {isSwahili
+                  ? "Ulinganishaji Sambamba wa Matoleo"
+                  : "Side-by-Side Prompt Comparator"}
               </h1>
             </div>
           </div>
@@ -76,7 +78,10 @@ export default function PromptsComparePage() {
           {/* Prompt Selector */}
           {promptsList.length > 0 && (
             <div className="flex items-center gap-2">
-              <label htmlFor="select-prompt" className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+              <label
+                htmlFor="select-prompt"
+                className="text-xs font-medium text-zinc-500 dark:text-zinc-400"
+              >
                 {isSwahili ? "Chagua Muundo:" : "Target Prompt:"}
               </label>
               <select

@@ -1,12 +1,15 @@
 # ADR 0003: Yjs and Cloudflare Durable Objects for Real-Time Collaboration
 
 ## Status
+
 Accepted
 
 ## Context
+
 Multi-user co-authoring in rich-text documents requires Conflict-free Replicated Data Types (CRDTs) to ensure convergence across concurrent edits without data loss. Traditional centralized WebSocket clusters (such as Socket.io or Elixir clusters) incur significant hosting overhead and latency spikes across intercontinental hops to East Africa.
 
 ## Decision
+
 We engineered real-time collaboration using **Yjs bound to TipTap (`y-prosemirror`)** coupled with **Cloudflare Durable Objects (`DocumentRoom`)**:
 
 1. **Edge-Hosted Rooms**:
@@ -20,6 +23,6 @@ We engineered real-time collaboration using **Yjs bound to TipTap (`y-prosemirro
    - A throttled timer flushes snapshots to origin PostgreSQL every 10 seconds or when the room is emptied.
 
 ## Consequences
+
 - **Positive**: Zero centralized WebSocket server management. Mathematical CRDT convergence guarantees two concurrent typers never overwrite each other. Local offline edits queue and merge cleanly once reconnected.
 - **Trade-off**: Durable Objects require Cloudflare Workers Paid plan in live production; during local development, Miniflare emulates DO transactional storage and WebSockets locally.
-

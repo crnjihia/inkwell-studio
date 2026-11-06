@@ -29,7 +29,11 @@ export default function RootHomePage() {
             {/* Regional Badge */}
             <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 px-3 py-1 text-[11px] font-mono text-zinc-600 dark:text-zinc-400 mb-8 shadow-2xs">
               <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              <span>{isSwahili ? "🇰🇪 Nairobi Studio • Afrika Mashariki" : "🇰🇪 Nairobi Studio • East Africa"}</span>
+              <span>
+                {isSwahili
+                  ? "🇰🇪 Nairobi Studio • Afrika Mashariki"
+                  : "🇰🇪 Nairobi Studio • East Africa"}
+              </span>
             </div>
 
             <h1 className="text-4xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50 sm:text-6xl">
@@ -49,7 +53,11 @@ export default function RootHomePage() {
                 className="inline-flex items-center gap-2 rounded-md bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 px-4 py-2 text-xs font-medium hover:opacity-90 transition shadow-2xs"
               >
                 <PenTool className="h-3.5 w-3.5" />
-                <span>{isSwahili ? "Fungua Mhariri wa TipTap" : "Open TipTap Editor"}</span>
+                <span>
+                  {isSwahili
+                    ? "Fungua Mhariri wa TipTap"
+                    : "Open TipTap Editor"}
+                </span>
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
 
@@ -58,7 +66,9 @@ export default function RootHomePage() {
                 className="inline-flex items-center gap-2 rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 px-4 py-2 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition shadow-2xs"
               >
                 <SlidersHorizontal className="h-3.5 w-3.5 text-zinc-400" />
-                <span>{isSwahili ? "Mielekezo ya AI (Prompts)" : "Prompt Versions"}</span>
+                <span>
+                  {isSwahili ? "Mielekezo ya AI (Prompts)" : "Prompt Versions"}
+                </span>
               </Link>
 
               <Link
@@ -66,7 +76,9 @@ export default function RootHomePage() {
                 className="inline-flex items-center gap-2 rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 px-4 py-2 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition shadow-2xs"
               >
                 <Coins className="h-3.5 w-3.5 text-amber-500" />
-                <span>{isSwahili ? "Matumizi (KES)" : "Usage & Costs (KES)"}</span>
+                <span>
+                  {isSwahili ? "Matumizi (KES)" : "Usage & Costs (KES)"}
+                </span>
               </Link>
             </div>
           </div>
@@ -77,7 +89,9 @@ export default function RootHomePage() {
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
             <div className="text-left mb-10">
               <h2 className="text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
-                {isSwahili ? "Usanifu na Nguzo za Mfumo" : "Architectural Pillars"}
+                {isSwahili
+                  ? "Usanifu na Nguzo za Mfumo"
+                  : "Architectural Pillars"}
               </h2>
               <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
                 {isSwahili
@@ -93,7 +107,9 @@ export default function RootHomePage() {
                   <Sparkles className="h-4 w-4" />
                 </div>
                 <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                  {isSwahili ? "Mtiririko wa AI (SSE)" : "Streaming TipTap Co-Authoring"}
+                  {isSwahili
+                    ? "Mtiririko wa AI (SSE)"
+                    : "Streaming TipTap Co-Authoring"}
                 </h3>
                 <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed font-normal">
                   {isSwahili
@@ -101,8 +117,13 @@ export default function RootHomePage() {
                     : "Stream Anthropic tokens directly into ProseMirror editor with diff block accept/reject actions and regional Swahili prompt injection."}
                 </p>
                 <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-[11px] font-mono">
-                  <span className="text-zinc-400 dark:text-zinc-500">Phase 2 & 3</span>
-                  <Link href="/editor/doc_nairobi_01" className="text-zinc-900 dark:text-zinc-300 hover:underline flex items-center gap-1 font-sans">
+                  <span className="text-zinc-400 dark:text-zinc-500">
+                    Phase 2 & 3
+                  </span>
+                  <Link
+                    href="/editor/doc_nairobi_01"
+                    className="text-zinc-900 dark:text-zinc-300 hover:underline flex items-center gap-1 font-sans"
+                  >
                     <span>{isSwahili ? "Fungua" : "Open"}</span>
                     <ArrowRight className="h-3 w-3" />
                   </Link>
@@ -115,7 +136,9 @@ export default function RootHomePage() {
                   <Users className="h-4 w-4" />
                 </div>
                 <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                  {isSwahili ? "Ushirikiano wa Moja kwa Moja" : "Durable Object Collaboration"}
+                  {isSwahili
+                    ? "Ushirikiano wa Moja kwa Moja"
+                    : "Durable Object Collaboration"}
                 </h3>
                 <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed font-normal">
                   {isSwahili
@@ -134,7 +157,9 @@ export default function RootHomePage() {
                   <SlidersHorizontal className="h-4 w-4" />
                 </div>
                 <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                  {isSwahili ? "Udhibiti wa Matoleo ya Mielekezo" : "Prompt Version Control & Rollback"}
+                  {isSwahili
+                    ? "Udhibiti wa Matoleo ya Mielekezo"
+                    : "Prompt Version Control & Rollback"}
                 </h3>
                 <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed font-normal">
                   {isSwahili
@@ -142,8 +167,13 @@ export default function RootHomePage() {
                     : "Semantic versioning for system prompts with side-by-side visual line diffs, A/B output comparison, and non-destructive rollbacks."}
                 </p>
                 <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-[11px] font-mono">
-                  <span className="text-zinc-400 dark:text-zinc-500">Phase 4</span>
-                  <Link href="/prompts" className="text-zinc-900 dark:text-zinc-300 hover:underline flex items-center gap-1 font-sans">
+                  <span className="text-zinc-400 dark:text-zinc-500">
+                    Phase 4
+                  </span>
+                  <Link
+                    href="/prompts"
+                    className="text-zinc-900 dark:text-zinc-300 hover:underline flex items-center gap-1 font-sans"
+                  >
                     <span>{isSwahili ? "Tazama" : "View"}</span>
                     <ArrowRight className="h-3 w-3" />
                   </Link>
@@ -156,7 +186,9 @@ export default function RootHomePage() {
                   <Globe className="h-4 w-4" />
                 </div>
                 <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                  {isSwahili ? "Uchapishaji & Kufuta Cache" : "Static Publishing & Sub-Second Purge"}
+                  {isSwahili
+                    ? "Uchapishaji & Kufuta Cache"
+                    : "Static Publishing & Sub-Second Purge"}
                 </h3>
                 <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed font-normal">
                   {isSwahili
@@ -164,8 +196,13 @@ export default function RootHomePage() {
                     : "One-click static publication generating Open Graph tags and JSON-LD schema with instant sub-second edge cache purge (<1000ms SLA)."}
                 </p>
                 <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-[11px] font-mono">
-                  <span className="text-zinc-400 dark:text-zinc-500">Phase 6 & 7</span>
-                  <Link href="/p/kilimo-bora-nakuru" className="text-zinc-900 dark:text-zinc-300 hover:underline flex items-center gap-1 font-sans">
+                  <span className="text-zinc-400 dark:text-zinc-500">
+                    Phase 6 & 7
+                  </span>
+                  <Link
+                    href="/p/kilimo-bora-nakuru"
+                    className="text-zinc-900 dark:text-zinc-300 hover:underline flex items-center gap-1 font-sans"
+                  >
                     <span>{isSwahili ? "Soma" : "Read"}</span>
                     <ArrowRight className="h-3 w-3" />
                   </Link>
@@ -178,7 +215,9 @@ export default function RootHomePage() {
                   <Coins className="h-4 w-4" />
                 </div>
                 <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                  {isSwahili ? "Takwimu za Matumizi (KES)" : "Usage Analytics & KES Budgets"}
+                  {isSwahili
+                    ? "Takwimu za Matumizi (KES)"
+                    : "Usage Analytics & KES Budgets"}
                 </h3>
                 <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed font-normal">
                   {isSwahili
@@ -186,8 +225,13 @@ export default function RootHomePage() {
                     : "Dual-currency token cost rollups via Timescale hypertables with continuous aggregates and email threshold alerts at 80% and 100%."}
                 </p>
                 <div className="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-[11px] font-mono">
-                  <span className="text-zinc-400 dark:text-zinc-500">Phase 8</span>
-                  <Link href="/usage" className="text-zinc-900 dark:text-zinc-300 hover:underline flex items-center gap-1 font-sans">
+                  <span className="text-zinc-400 dark:text-zinc-500">
+                    Phase 8
+                  </span>
+                  <Link
+                    href="/usage"
+                    className="text-zinc-900 dark:text-zinc-300 hover:underline flex items-center gap-1 font-sans"
+                  >
                     <span>{isSwahili ? "Dashibodi" : "Dashboard"}</span>
                     <ArrowRight className="h-3 w-3" />
                   </Link>
@@ -200,7 +244,9 @@ export default function RootHomePage() {
                   <ShieldCheck className="h-4 w-4" />
                 </div>
                 <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                  {isSwahili ? "Ulinzi & Usiri wa Data (PII)" : "PII Hygiene & Injection Defense"}
+                  {isSwahili
+                    ? "Ulinzi & Usiri wa Data (PII)"
+                    : "PII Hygiene & Injection Defense"}
                 </h3>
                 <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed font-normal">
                   {isSwahili
@@ -220,15 +266,37 @@ export default function RootHomePage() {
         <footer className="border-t border-zinc-200 dark:border-zinc-800/80 py-8">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500 dark:text-zinc-500">
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-zinc-700 dark:text-zinc-300">Inkwell Studio</span>
+              <span className="font-semibold text-zinc-700 dark:text-zinc-300">
+                Inkwell Studio
+              </span>
               <span>•</span>
               <span>Nairobi Innovators Studio</span>
             </div>
             <div className="flex items-center gap-4">
-              <Link href="/editor/doc_nairobi_01" className="hover:text-zinc-900 dark:hover:text-zinc-100 transition">Editor</Link>
-              <Link href="/prompts" className="hover:text-zinc-900 dark:hover:text-zinc-100 transition">Prompts</Link>
-              <Link href="/usage" className="hover:text-zinc-900 dark:hover:text-zinc-100 transition">Usage</Link>
-              <Link href="/p/kilimo-bora-nakuru" className="hover:text-zinc-900 dark:hover:text-zinc-100 transition">Sample Post</Link>
+              <Link
+                href="/editor/doc_nairobi_01"
+                className="hover:text-zinc-900 dark:hover:text-zinc-100 transition"
+              >
+                Editor
+              </Link>
+              <Link
+                href="/prompts"
+                className="hover:text-zinc-900 dark:hover:text-zinc-100 transition"
+              >
+                Prompts
+              </Link>
+              <Link
+                href="/usage"
+                className="hover:text-zinc-900 dark:hover:text-zinc-100 transition"
+              >
+                Usage
+              </Link>
+              <Link
+                href="/p/kilimo-bora-nakuru"
+                className="hover:text-zinc-900 dark:hover:text-zinc-100 transition"
+              >
+                Sample Post
+              </Link>
             </div>
           </div>
         </footer>

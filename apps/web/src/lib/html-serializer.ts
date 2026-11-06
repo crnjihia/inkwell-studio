@@ -6,7 +6,9 @@ export interface TipTapNode {
 }
 
 // Converts TipTap / ProseMirror JSON document into semantic HTML
-export function serializeTipTapToHtml(docJson: Record<string, unknown>): string {
+export function serializeTipTapToHtml(
+  docJson: Record<string, unknown>,
+): string {
   if (!docJson || typeof docJson !== "object") return "";
 
   const root = docJson as unknown as TipTapNode;
@@ -18,7 +20,9 @@ export function serializeTipTapToHtml(docJson: Record<string, unknown>): string 
 function renderNode(node: TipTapNode): string {
   if (!node) return "";
 
-  const childrenHtml = node.content ? node.content.map(renderNode).join("") : "";
+  const childrenHtml = node.content
+    ? node.content.map(renderNode).join("")
+    : "";
   const textContent = node.text ? escapeHtml(node.text) : "";
 
   switch (node.type) {
@@ -51,4 +55,3 @@ function escapeHtml(text: string): string {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
-

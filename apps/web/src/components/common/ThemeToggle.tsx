@@ -45,7 +45,11 @@ export function ThemeToggle() {
       type="button"
       onClick={toggleTheme}
       className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
-      title={theme === "dark" ? "Badili kuwa Modi ya Mwangaza (Switch to Light Mode)" : "Badili kuwa Modi ya Giza (Switch to Dark Mode)"}
+      title={
+        theme === "dark"
+          ? "Badili kuwa Modi ya Mwangaza (Switch to Light Mode)"
+          : "Badili kuwa Modi ya Giza (Switch to Dark Mode)"
+      }
       aria-label="Toggle Theme"
     >
       {theme === "dark" ? (
@@ -56,4 +60,3 @@ export function ThemeToggle() {
     </button>
   );
 }
-

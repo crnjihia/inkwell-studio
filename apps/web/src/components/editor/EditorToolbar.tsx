@@ -18,7 +18,9 @@ import {
 interface EditorToolbarProps {
   editor: Editor | null;
   tone: "professional" | "editorial" | "conversational" | "urgent";
-  onToneChange: (tone: "professional" | "editorial" | "conversational" | "urgent") => void;
+  onToneChange: (
+    tone: "professional" | "editorial" | "conversational" | "urgent",
+  ) => void;
   length: "short" | "medium" | "long";
   onLengthChange: (length: "short" | "medium" | "long") => void;
   onOpenAiDrawer: () => void;
@@ -49,7 +51,9 @@ export function EditorToolbar({
             type="button"
             onClick={() => editor.chain().focus().toggleBold().run()}
             className={`rounded p-1 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition ${
-              editor.isActive("bold") ? "bg-zinc-200 dark:bg-zinc-800 font-bold text-zinc-900 dark:text-zinc-100" : ""
+              editor.isActive("bold")
+                ? "bg-zinc-200 dark:bg-zinc-800 font-bold text-zinc-900 dark:text-zinc-100"
+                : ""
             }`}
             title="Bold"
           >
@@ -60,7 +64,9 @@ export function EditorToolbar({
             type="button"
             onClick={() => editor.chain().focus().toggleItalic().run()}
             className={`rounded p-1 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition ${
-              editor.isActive("italic") ? "bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100" : ""
+              editor.isActive("italic")
+                ? "bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+                : ""
             }`}
             title="Italic"
           >
@@ -71,9 +77,13 @@ export function EditorToolbar({
 
           <button
             type="button"
-            onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+            onClick={() =>
+              editor.chain().focus().toggleHeading({ level: 1 }).run()
+            }
             className={`rounded p-1 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition ${
-              editor.isActive("heading", { level: 1 }) ? "bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100" : ""
+              editor.isActive("heading", { level: 1 })
+                ? "bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+                : ""
             }`}
             title="Heading 1"
           >
@@ -82,9 +92,13 @@ export function EditorToolbar({
 
           <button
             type="button"
-            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+            onClick={() =>
+              editor.chain().focus().toggleHeading({ level: 2 }).run()
+            }
             className={`rounded p-1 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition ${
-              editor.isActive("heading", { level: 2 }) ? "bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100" : ""
+              editor.isActive("heading", { level: 2 })
+                ? "bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+                : ""
             }`}
             title="Heading 2"
           >
@@ -97,7 +111,9 @@ export function EditorToolbar({
             type="button"
             onClick={() => editor.chain().focus().toggleBulletList().run()}
             className={`rounded p-1 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition ${
-              editor.isActive("bulletList") ? "bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100" : ""
+              editor.isActive("bulletList")
+                ? "bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+                : ""
             }`}
             title="Bullet List"
           >
@@ -108,7 +124,9 @@ export function EditorToolbar({
             type="button"
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
             className={`rounded p-1 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition ${
-              editor.isActive("orderedList") ? "bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100" : ""
+              editor.isActive("orderedList")
+                ? "bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+                : ""
             }`}
             title="Numbered List"
           >
@@ -119,7 +137,9 @@ export function EditorToolbar({
             type="button"
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
             className={`rounded p-1 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition ${
-              editor.isActive("blockquote") ? "bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100" : ""
+              editor.isActive("blockquote")
+                ? "bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+                : ""
             }`}
             title="Blockquote"
           >
@@ -158,12 +178,23 @@ export function EditorToolbar({
             </label>
             <select
               value={tone}
-              onChange={(e) => onToneChange(e.target.value as "professional" | "editorial" | "conversational" | "urgent")}
+              onChange={(e) =>
+                onToneChange(
+                  e.target.value as
+                    "professional" | "editorial" | "conversational" | "urgent",
+                )
+              }
               className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-2 py-0.5 text-xs text-zinc-700 dark:text-zinc-300 focus:outline-hidden"
             >
-              <option value="professional">{isSwahili ? "Rasmi" : "Professional"}</option>
-              <option value="editorial">{isSwahili ? "Makala" : "Editorial"}</option>
-              <option value="conversational">{isSwahili ? "Mazungumzo" : "Conversational"}</option>
+              <option value="professional">
+                {isSwahili ? "Rasmi" : "Professional"}
+              </option>
+              <option value="editorial">
+                {isSwahili ? "Makala" : "Editorial"}
+              </option>
+              <option value="conversational">
+                {isSwahili ? "Mazungumzo" : "Conversational"}
+              </option>
               <option value="urgent">{isSwahili ? "Dharura" : "Urgent"}</option>
             </select>
           </div>
@@ -175,7 +206,9 @@ export function EditorToolbar({
             </label>
             <select
               value={length}
-              onChange={(e) => onLengthChange(e.target.value as "short" | "medium" | "long")}
+              onChange={(e) =>
+                onLengthChange(e.target.value as "short" | "medium" | "long")
+              }
               className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-2 py-0.5 text-xs text-zinc-700 dark:text-zinc-300 focus:outline-hidden"
             >
               <option value="short">{isSwahili ? "Fupi" : "Short"}</option>

@@ -9,7 +9,10 @@ export interface ResolvedPrompt {
 }
 
 // Built-in East African System Prompt Fallbacks
-const DEFAULT_SYSTEM_PROMPTS: Record<string, Record<string, { system: string; template: string }>> = {
+const DEFAULT_SYSTEM_PROMPTS: Record<
+  string,
+  Record<string, { system: string; template: string }>
+> = {
   blog: {
     sw: {
       system:
@@ -66,7 +69,10 @@ export async function resolveActivePrompt(params: {
     if (promptId) {
       // Find prompt and its active version
       const promptRecord = await db.query.prompts.findFirst({
-        where: and(eq(prompts.id, promptId), eq(prompts.workspaceId, workspaceId)),
+        where: and(
+          eq(prompts.id, promptId),
+          eq(prompts.workspaceId, workspaceId),
+        ),
       });
 
       if (promptRecord?.activeVersionId) {
@@ -91,7 +97,7 @@ export async function resolveActivePrompt(params: {
       where: and(
         eq(prompts.workspaceId, workspaceId),
         eq(prompts.contentType, contentType),
-        eq(prompts.language, language)
+        eq(prompts.language, language),
       ),
     });
 
@@ -111,7 +117,10 @@ export async function resolveActivePrompt(params: {
       }
     }
   } catch (error) {
-    console.warn("⚠️ Database query failed in resolveActivePrompt, falling back to built-in templates:", error);
+    console.warn(
+      "⚠️ Database query failed in resolveActivePrompt, falling back to built-in templates:",
+      error,
+    );
   }
 
   // Fallback to built-in templates
@@ -125,4 +134,3 @@ export async function resolveActivePrompt(params: {
     userPromptTemplate: fallback.template,
   };
 }
-

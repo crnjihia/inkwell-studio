@@ -10,7 +10,11 @@ interface LanguageToggleProps {
   disabled?: boolean;
 }
 
-export function LanguageToggle({ value: propValue, onChange: propOnChange, disabled }: LanguageToggleProps) {
+export function LanguageToggle({
+  value: propValue,
+  onChange: propOnChange,
+  disabled,
+}: LanguageToggleProps) {
   const { language: contextLang, setLanguage: contextSetLang } = useLanguage();
 
   const currentLang = propValue !== undefined ? propValue : contextLang;

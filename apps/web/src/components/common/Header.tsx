@@ -2,7 +2,15 @@
 
 import React from "react";
 import Link from "next/link";
-import { PenTool, CheckCircle2, Clock, BarChart3, SlidersHorizontal, FileText, Share2 } from "lucide-react";
+import {
+  PenTool,
+  CheckCircle2,
+  Clock,
+  BarChart3,
+  SlidersHorizontal,
+  FileText,
+  Share2,
+} from "lucide-react";
 import { LanguageToggle } from "./LanguageToggle";
 import { ThemeToggle } from "./ThemeToggle";
 import { useLanguage, type Language } from "@/context/LanguageContext";
@@ -28,7 +36,8 @@ export function Header({
   onPublish,
   isPublishing,
 }: HeaderProps) {
-  const { language: contextLanguage, setLanguage: contextSetLanguage } = useLanguage();
+  const { language: contextLanguage, setLanguage: contextSetLanguage } =
+    useLanguage();
   const language = propLanguage || contextLanguage;
   const isSwahili = language === "sw";
 
@@ -47,7 +56,8 @@ export function Header({
       }).format(lastSavedAt)
     : null;
 
-  const isEditorMode = documentTitle !== undefined && onTitleChange !== undefined;
+  const isEditorMode =
+    documentTitle !== undefined && onTitleChange !== undefined;
 
   return (
     <header className="sticky top-0 z-40 border-b border-zinc-200 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md transition-colors duration-150">
@@ -62,9 +72,13 @@ export function Header({
             <div className="flex h-7 w-7 items-center justify-center rounded-md bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 shadow-2xs group-hover:scale-105 transition-transform">
               <PenTool className="h-3.5 w-3.5" />
             </div>
-            <span className="text-sm font-semibold tracking-tight hidden sm:inline">Inkwell Studio</span>
+            <span className="text-sm font-semibold tracking-tight hidden sm:inline">
+              Inkwell Studio
+            </span>
           </Link>
-          <span className="hidden text-zinc-300 dark:text-zinc-700 sm:inline">/</span>
+          <span className="hidden text-zinc-300 dark:text-zinc-700 sm:inline">
+            /
+          </span>
           <span className="hidden md:inline-flex items-center rounded border border-zinc-200/80 dark:border-zinc-800 bg-zinc-100/60 dark:bg-zinc-900/60 px-2 py-0.5 text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
             Nairobi Studio
           </span>
@@ -79,26 +93,38 @@ export function Header({
                 type="text"
                 value={documentTitle}
                 onChange={(e) => onTitleChange(e.target.value)}
-                placeholder={isSwahili ? "Kichwa cha Makala..." : "Untitled Document..."}
+                placeholder={
+                  isSwahili ? "Kichwa cha Makala..." : "Untitled Document..."
+                }
                 className="w-full truncate bg-transparent text-xs sm:text-sm font-medium text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:outline-hidden"
               />
               <div className="flex items-center shrink-0">
                 {saveStatus === "saving" && (
                   <span className="inline-flex items-center gap-1 text-[11px] font-mono text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 rounded border border-amber-200/60 dark:border-amber-800/40">
                     <Clock className="h-3 w-3 animate-spin" />
-                    <span className="hidden md:inline">{isSwahili ? "Inahifadhi..." : "Saving..."}</span>
+                    <span className="hidden md:inline">
+                      {isSwahili ? "Inahifadhi..." : "Saving..."}
+                    </span>
                   </span>
                 )}
                 {saveStatus === "saved" && (
                   <span className="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-200/60 dark:border-emerald-800/40">
                     <CheckCircle2 className="h-3 w-3" />
-                    <span className="hidden md:inline">{formattedSavedTime ? `${formattedSavedTime} EAT` : isSwahili ? "Imehifadhiwa" : "Saved"}</span>
+                    <span className="hidden md:inline">
+                      {formattedSavedTime
+                        ? `${formattedSavedTime} EAT`
+                        : isSwahili
+                          ? "Imehifadhiwa"
+                          : "Saved"}
+                    </span>
                   </span>
                 )}
                 {saveStatus === "unsaved" && (
                   <span className="inline-flex items-center gap-1 text-[11px] font-mono text-zinc-500 dark:text-zinc-400 bg-zinc-200/50 dark:bg-zinc-800/50 px-2 py-0.5 rounded border border-zinc-300/40 dark:border-zinc-700/40">
                     <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-                    <span className="hidden md:inline">{isSwahili ? "Haijahifadhiwa" : "Unsaved"}</span>
+                    <span className="hidden md:inline">
+                      {isSwahili ? "Haijahifadhiwa" : "Unsaved"}
+                    </span>
                   </span>
                 )}
               </div>
@@ -118,7 +144,9 @@ export function Header({
                 title="Editor"
               >
                 <PenTool className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">{isSwahili ? "Mhariri" : "Editor"}</span>
+                <span className="hidden sm:inline">
+                  {isSwahili ? "Mhariri" : "Editor"}
+                </span>
               </Link>
             )}
 
@@ -128,7 +156,9 @@ export function Header({
               title="Prompt Version Control"
             >
               <SlidersHorizontal className="h-3.5 w-3.5" />
-              <span className="hidden lg:inline">{isSwahili ? "Mielekezo" : "Prompts"}</span>
+              <span className="hidden lg:inline">
+                {isSwahili ? "Mielekezo" : "Prompts"}
+              </span>
             </Link>
 
             <Link
@@ -137,7 +167,9 @@ export function Header({
               title="Usage & Telemetry (KES)"
             >
               <BarChart3 className="h-3.5 w-3.5" />
-              <span className="hidden lg:inline">{isSwahili ? "Matumizi" : "Usage"}</span>
+              <span className="hidden lg:inline">
+                {isSwahili ? "Matumizi" : "Usage"}
+              </span>
             </Link>
           </nav>
 
@@ -151,7 +183,13 @@ export function Header({
             >
               <Share2 className="h-3 w-3" />
               <span className="hidden sm:inline">
-                {isPublishing ? (isSwahili ? "Inachapisha..." : "Publishing...") : isSwahili ? "Chapisha" : "Publish"}
+                {isPublishing
+                  ? isSwahili
+                    ? "Inachapisha..."
+                    : "Publishing..."
+                  : isSwahili
+                    ? "Chapisha"
+                    : "Publish"}
               </span>
             </button>
           )}

@@ -14,8 +14,10 @@ const ENGLISH_DEFAULT_TITLE = "Modern Agricultural Cooperative System";
 const SWAHILI_DEFAULT_TOPIC = "Mifumo ya Kidijitali ya Wakulima wa Nakuru";
 const ENGLISH_DEFAULT_TOPIC = "Digital Farming Platforms for Nakuru Farmers";
 
-const SWAHILI_DEFAULT_CONTEXT = "Ushirika wa wakulima 400 wanaohitaji jukwaa la M-Pesa na usambazaji wa mazao.";
-const ENGLISH_DEFAULT_CONTEXT = "Cooperative of 400 farmers needing M-Pesa platform and produce distribution.";
+const SWAHILI_DEFAULT_CONTEXT =
+  "Ushirika wa wakulima 400 wanaohitaji jukwaa la M-Pesa na usambazaji wa mazao.";
+const ENGLISH_DEFAULT_CONTEXT =
+  "Cooperative of 400 farmers needing M-Pesa platform and produce distribution.";
 
 interface EditorPageProps {
   params: {
@@ -29,25 +31,33 @@ export default function DocumentEditorPage({ params }: EditorPageProps) {
 
   // Document state initialized based on active language
   const [documentTitle, setDocumentTitle] = useState(
-    isSwahili ? SWAHILI_DEFAULT_TITLE : ENGLISH_DEFAULT_TITLE
+    isSwahili ? SWAHILI_DEFAULT_TITLE : ENGLISH_DEFAULT_TITLE,
   );
-  const [tone, setTone] = useState<"professional" | "editorial" | "conversational" | "urgent">("professional");
+  const [tone, setTone] = useState<
+    "professional" | "editorial" | "conversational" | "urgent"
+  >("professional");
   const [length, setLength] = useState<"short" | "medium" | "long">("medium");
-  const [saveStatus, setSaveStatus] = useState<"saved" | "saving" | "unsaved">("saved");
+  const [saveStatus, setSaveStatus] = useState<"saved" | "saving" | "unsaved">(
+    "saved",
+  );
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(new Date());
 
   // Publishing state
   const [isPublishing, setIsPublishing] = useState(false);
-  const [publishSuccessUrl, setPublishSuccessUrl] = useState<string | null>(null);
+  const [publishSuccessUrl, setPublishSuccessUrl] = useState<string | null>(
+    null,
+  );
 
   // AI Drawer state
   const [isAiDrawerOpen, setIsAiDrawerOpen] = useState(false);
-  const [contentType, setContentType] = useState<"blog" | "social" | "grant_proposal">("grant_proposal");
+  const [contentType, setContentType] = useState<
+    "blog" | "social" | "grant_proposal"
+  >("grant_proposal");
   const [topic, setTopic] = useState(
-    isSwahili ? SWAHILI_DEFAULT_TOPIC : ENGLISH_DEFAULT_TOPIC
+    isSwahili ? SWAHILI_DEFAULT_TOPIC : ENGLISH_DEFAULT_TOPIC,
   );
   const [contextInput, setContextInput] = useState(
-    isSwahili ? SWAHILI_DEFAULT_CONTEXT : ENGLISH_DEFAULT_CONTEXT
+    isSwahili ? SWAHILI_DEFAULT_CONTEXT : ENGLISH_DEFAULT_CONTEXT,
   );
 
   // Streaming & Review state
@@ -55,33 +65,48 @@ export default function DocumentEditorPage({ params }: EditorPageProps) {
   const [streamingText, setStreamingText] = useState("");
   const [isPendingReview, setIsPendingReview] = useState(false);
   const [streamError, setStreamError] = useState<string | null>(null);
-  const [tokenCount, setTokenCount] = useState<{
-    inputTokens: number;
-    outputTokens: number;
-    formattedKes?: string;
-    formattedUsd?: string;
-  } | undefined>(undefined);
+  const [tokenCount, setTokenCount] = useState<
+    | {
+        inputTokens: number;
+        outputTokens: number;
+        formattedKes?: string;
+        formattedUsd?: string;
+      }
+    | undefined
+  >(undefined);
 
   const abortControllerRef = useRef<AbortController | null>(null);
 
   // Synchronize default placeholders when user switches language if they haven't written custom values
   useEffect(() => {
     setDocumentTitle((prev) => {
-      if (prev === SWAHILI_DEFAULT_TITLE || prev === ENGLISH_DEFAULT_TITLE || !prev) {
+      if (
+        prev === SWAHILI_DEFAULT_TITLE ||
+        prev === ENGLISH_DEFAULT_TITLE ||
+        !prev
+      ) {
         return isSwahili ? SWAHILI_DEFAULT_TITLE : ENGLISH_DEFAULT_TITLE;
       }
       return prev;
     });
 
     setTopic((prev) => {
-      if (prev === SWAHILI_DEFAULT_TOPIC || prev === ENGLISH_DEFAULT_TOPIC || !prev) {
+      if (
+        prev === SWAHILI_DEFAULT_TOPIC ||
+        prev === ENGLISH_DEFAULT_TOPIC ||
+        !prev
+      ) {
         return isSwahili ? SWAHILI_DEFAULT_TOPIC : ENGLISH_DEFAULT_TOPIC;
       }
       return prev;
     });
 
     setContextInput((prev) => {
-      if (prev === SWAHILI_DEFAULT_CONTEXT || prev === ENGLISH_DEFAULT_CONTEXT || !prev) {
+      if (
+        prev === SWAHILI_DEFAULT_CONTEXT ||
+        prev === ENGLISH_DEFAULT_CONTEXT ||
+        !prev
+      ) {
         return isSwahili ? SWAHILI_DEFAULT_CONTEXT : ENGLISH_DEFAULT_CONTEXT;
       }
       return prev;
@@ -89,30 +114,33 @@ export default function DocumentEditorPage({ params }: EditorPageProps) {
   }, [language, isSwahili]);
 
   // Debounced autosave handler
-  const handleAutosave = useCallback(async (content: JSONContent) => {
-    setSaveStatus("saving");
-    try {
-      const res = await fetch(`/api/documents/${documentId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: documentTitle,
-          content,
-          language,
-          contentType,
-        }),
-      });
+  const handleAutosave = useCallback(
+    async (content: JSONContent) => {
+      setSaveStatus("saving");
+      try {
+        const res = await fetch(`/api/documents/${documentId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: documentTitle,
+            content,
+            language,
+            contentType,
+          }),
+        });
 
-      if (res.ok) {
-        setSaveStatus("saved");
-        setLastSavedAt(new Date());
-      } else {
+        if (res.ok) {
+          setSaveStatus("saved");
+          setLastSavedAt(new Date());
+        } else {
+          setSaveStatus("unsaved");
+        }
+      } catch {
         setSaveStatus("unsaved");
       }
-    } catch {
-      setSaveStatus("unsaved");
-    }
-  }, [documentId, documentTitle, language, contentType]);
+    },
+    [documentId, documentTitle, language, contentType],
+  );
 
   // Clean up abort controller on unmount
   useEffect(() => {
@@ -181,7 +209,9 @@ export default function DocumentEditorPage({ params }: EditorPageProps) {
 
       if (!response.ok) {
         const errJson = await response.json().catch(() => null);
-        throw new Error(errJson?.error || `Generation failed: HTTP ${response.status}`);
+        throw new Error(
+          errJson?.error || `Generation failed: HTTP ${response.status}`,
+        );
       }
 
       if (!response.body) {
@@ -223,7 +253,9 @@ export default function DocumentEditorPage({ params }: EditorPageProps) {
                 });
               }
               if (data.type === "blocked") {
-                throw new Error(data.reason || "Content flagged by regional safeguards");
+                throw new Error(
+                  data.reason || "Content flagged by regional safeguards",
+                );
               }
             } catch (err: unknown) {
               if (err instanceof Error && err.message.includes("safeguards")) {
@@ -238,7 +270,11 @@ export default function DocumentEditorPage({ params }: EditorPageProps) {
       setIsPendingReview(true);
     } catch (err: unknown) {
       if ((err as Error).name === "AbortError") {
-        setStreamError(isSwahili ? "Uzalishaji ulisitishwa na mtumiaji." : "Generation cancelled by user.");
+        setStreamError(
+          isSwahili
+            ? "Uzalishaji ulisitishwa na mtumiaji."
+            : "Generation cancelled by user.",
+        );
       } else {
         setStreamError((err as Error).message || "Generation error");
       }
@@ -292,7 +328,11 @@ export default function DocumentEditorPage({ params }: EditorPageProps) {
       {publishSuccessUrl && (
         <div className="fixed top-16 right-6 z-50 flex items-center gap-2 rounded-lg border border-emerald-200 dark:border-emerald-900/60 bg-emerald-50 dark:bg-emerald-950/80 p-3 text-xs font-medium text-emerald-800 dark:text-emerald-200 shadow-xl backdrop-blur-md">
           <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-          <span>{isSwahili ? "Makala yamechapishwa!" : "Article published successfully!"}</span>
+          <span>
+            {isSwahili
+              ? "Makala yamechapishwa!"
+              : "Article published successfully!"}
+          </span>
           <Link
             href={publishSuccessUrl}
             className="underline ml-1 font-semibold hover:opacity-80"
@@ -300,7 +340,11 @@ export default function DocumentEditorPage({ params }: EditorPageProps) {
           >
             {isSwahili ? "Tazama Hapa" : "View Live"}
           </Link>
-          <button type="button" onClick={() => setPublishSuccessUrl(null)} className="ml-2 hover:opacity-75">
+          <button
+            type="button"
+            onClick={() => setPublishSuccessUrl(null)}
+            className="ml-2 hover:opacity-75"
+          >
             <X className="h-3.5 w-3.5" />
           </button>
         </div>
@@ -330,7 +374,11 @@ export default function DocumentEditorPage({ params }: EditorPageProps) {
         <div className="fixed bottom-20 right-6 z-50 flex items-center gap-2 rounded-md border border-rose-200 dark:border-rose-900/60 bg-rose-50 dark:bg-rose-950/80 p-3.5 text-xs font-medium text-rose-800 dark:text-rose-200 shadow-xl">
           <AlertCircle className="h-4 w-4 text-rose-600 dark:text-rose-400" />
           <span>{streamError}</span>
-          <button type="button" onClick={() => setStreamError(null)} className="ml-2 hover:opacity-75">
+          <button
+            type="button"
+            onClick={() => setStreamError(null)}
+            className="ml-2 hover:opacity-75"
+          >
             <X className="h-3.5 w-3.5" />
           </button>
         </div>
@@ -346,7 +394,9 @@ export default function DocumentEditorPage({ params }: EditorPageProps) {
                   <Sparkles className="h-3.5 w-3.5" />
                 </div>
                 <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                  {isSwahili ? "Msaidizi wa Uandishi wa AI" : "AI Content Studio"}
+                  {isSwahili
+                    ? "Msaidizi wa Uandishi wa AI"
+                    : "AI Content Studio"}
                 </h3>
               </div>
               <button
@@ -365,14 +415,27 @@ export default function DocumentEditorPage({ params }: EditorPageProps) {
                 </label>
                 <div className="mt-1.5 grid grid-cols-3 gap-2">
                   {[
-                    { id: "blog", label: isSwahili ? "Makala / Blog" : "Blog Post" },
-                    { id: "grant_proposal", label: isSwahili ? "Ufadhili / Grant" : "Grant Proposal" },
-                    { id: "social", label: isSwahili ? "Mitandao / Social" : "Social Copy" },
+                    {
+                      id: "blog",
+                      label: isSwahili ? "Makala / Blog" : "Blog Post",
+                    },
+                    {
+                      id: "grant_proposal",
+                      label: isSwahili ? "Ufadhili / Grant" : "Grant Proposal",
+                    },
+                    {
+                      id: "social",
+                      label: isSwahili ? "Mitandao / Social" : "Social Copy",
+                    },
                   ].map((item) => (
                     <button
                       key={item.id}
                       type="button"
-                      onClick={() => setContentType(item.id as "blog" | "social" | "grant_proposal")}
+                      onClick={() =>
+                        setContentType(
+                          item.id as "blog" | "social" | "grant_proposal",
+                        )
+                      }
                       className={`rounded-md border px-2.5 py-1.5 text-xs font-medium transition ${
                         contentType === item.id
                           ? "border-zinc-900 dark:border-zinc-100 bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950"
@@ -393,14 +456,20 @@ export default function DocumentEditorPage({ params }: EditorPageProps) {
                   type="text"
                   value={topic}
                   onChange={(e) => setTopic(e.target.value)}
-                  placeholder={isSwahili ? "Mfano: Kilimo Biashara Nakuru..." : "e.g. Scaling Agri-tech in Kenya..."}
+                  placeholder={
+                    isSwahili
+                      ? "Mfano: Kilimo Biashara Nakuru..."
+                      : "e.g. Scaling Agri-tech in Kenya..."
+                  }
                   className="mt-1 w-full rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950 px-3 py-1.5 text-xs text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:border-zinc-400 dark:focus:border-zinc-600 focus:outline-hidden"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300">
-                  {isSwahili ? "Muktadha wa Ziada (Context & Data)" : "Context & Constraints"}
+                  {isSwahili
+                    ? "Muktadha wa Ziada (Context & Data)"
+                    : "Context & Constraints"}
                 </label>
                 <textarea
                   rows={3}
@@ -416,9 +485,24 @@ export default function DocumentEditorPage({ params }: EditorPageProps) {
               </div>
 
               <div className="flex items-center justify-between rounded-md border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950/60 p-2.5 text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
-                <span>{isSwahili ? "Lugha:" : "Lang:"} <strong className="text-zinc-800 dark:text-zinc-200">{isSwahili ? "Kiswahili" : "English"}</strong></span>
-                <span>{isSwahili ? "Mtindo:" : "Tone:"} <strong className="text-zinc-800 dark:text-zinc-200">{tone}</strong></span>
-                <span>{isSwahili ? "Urefu:" : "Len:"} <strong className="text-zinc-800 dark:text-zinc-200">{length}</strong></span>
+                <span>
+                  {isSwahili ? "Lugha:" : "Lang:"}{" "}
+                  <strong className="text-zinc-800 dark:text-zinc-200">
+                    {isSwahili ? "Kiswahili" : "English"}
+                  </strong>
+                </span>
+                <span>
+                  {isSwahili ? "Mtindo:" : "Tone:"}{" "}
+                  <strong className="text-zinc-800 dark:text-zinc-200">
+                    {tone}
+                  </strong>
+                </span>
+                <span>
+                  {isSwahili ? "Urefu:" : "Len:"}{" "}
+                  <strong className="text-zinc-800 dark:text-zinc-200">
+                    {length}
+                  </strong>
+                </span>
               </div>
             </div>
 

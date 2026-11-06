@@ -1,6 +1,14 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { db, workspaces, usageEvents, generations, eq, desc, sql } from "@inkwell/db";
+import {
+  db,
+  workspaces,
+  usageEvents,
+  generations,
+  eq,
+  desc,
+  sql,
+} from "@inkwell/db";
 import { checkWorkspaceBudget } from "@/lib/budget-guard";
 import { formatKes, formatUsd } from "@/lib/currency";
 
@@ -14,7 +22,9 @@ export async function GET(req: NextRequest) {
   try {
     // 1. Fetch workspace or fallback to first
     const workspace = workspaceId
-      ? await db.query.workspaces.findFirst({ where: eq(workspaces.id, workspaceId) })
+      ? await db.query.workspaces.findFirst({
+          where: eq(workspaces.id, workspaceId),
+        })
       : await db.query.workspaces.findFirst();
 
     if (!workspace) {
@@ -43,7 +53,10 @@ export async function GET(req: NextRequest) {
     const totalOutputTokens = parseInt(totals[0]?.totalOutput || "0", 10);
     const totalCostKesNum = parseFloat(totals[0]?.totalCostKes || "0");
     const totalCostUsdNum = parseFloat(totals[0]?.totalCostUsd || "0");
-    const totalGenerationsCount = parseInt(totals[0]?.totalGenerations || "0", 10);
+    const totalGenerationsCount = parseInt(
+      totals[0]?.totalGenerations || "0",
+      10,
+    );
 
     // 4. Daily usage breakdown (Continuous Aggregate simulation / rollup)
     const dailyRollup = await db
@@ -106,10 +119,13 @@ export async function GET(req: NextRequest) {
           formattedKes: formatKes(parseFloat(e.costKes)),
         })),
       }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
+      { status: 200, headers: { "Content-Type": "application/json" } },
     );
   } catch (error) {
-    console.warn("Usage query: Database not reachable, returning synthetic Nairobi telemetry:", error);
+    console.warn(
+      "Usage query: Database not reachable, returning synthetic Nairobi telemetry:",
+      error,
+    );
     return new Response(
       JSON.stringify({
         workspace: {
@@ -137,11 +153,41 @@ export async function GET(req: NextRequest) {
           totalGenerations: 24,
         },
         dailyUsage: [
-          { date: "2026-11-01", inputTokens: 1200, outputTokens: 600, costKes: 780.0, costUsd: 6.0 },
-          { date: "2026-11-02", inputTokens: 2100, outputTokens: 950, costKes: 1240.0, costUsd: 9.54 },
-          { date: "2026-11-03", inputTokens: 1800, outputTokens: 800, costKes: 1080.0, costUsd: 8.31 },
-          { date: "2026-11-04", inputTokens: 2400, outputTokens: 1100, costKes: 1420.0, costUsd: 10.92 },
-          { date: "2026-11-05", inputTokens: 2300, outputTokens: 1000, costKes: 1300.0, costUsd: 10.0 },
+          {
+            date: "2026-11-01",
+            inputTokens: 1200,
+            outputTokens: 600,
+            costKes: 780.0,
+            costUsd: 6.0,
+          },
+          {
+            date: "2026-11-02",
+            inputTokens: 2100,
+            outputTokens: 950,
+            costKes: 1240.0,
+            costUsd: 9.54,
+          },
+          {
+            date: "2026-11-03",
+            inputTokens: 1800,
+            outputTokens: 800,
+            costKes: 1080.0,
+            costUsd: 8.31,
+          },
+          {
+            date: "2026-11-04",
+            inputTokens: 2400,
+            outputTokens: 1100,
+            costKes: 1420.0,
+            costUsd: 10.92,
+          },
+          {
+            date: "2026-11-05",
+            inputTokens: 2300,
+            outputTokens: 1000,
+            costKes: 1300.0,
+            costUsd: 10.0,
+          },
         ],
         recentEvents: [
           {
@@ -156,7 +202,7 @@ export async function GET(req: NextRequest) {
           },
         ],
       }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
+      { status: 200, headers: { "Content-Type": "application/json" } },
     );
   }
 }
@@ -177,17 +223,30 @@ export async function POST(req: NextRequest) {
   try {
     body = await req.json();
   } catch {
-    return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400 });
+    return new Response(JSON.stringify({ error: "Invalid JSON" }), {
+      status: 400,
+    });
   }
 
   const parsed = logUsageSchema.safeParse(body);
   if (!parsed.success) {
-    return new Response(JSON.stringify({ error: "Invalid payload", details: parsed.error }), {
-      status: 422,
-    });
+    return new Response(
+      JSON.stringify({ error: "Invalid payload", details: parsed.error }),
+      {
+        status: 422,
+      },
+    );
   }
 
-  const { workspaceId, userId, modelId, inputTokens, outputTokens, costKes, costUsd } = parsed.data;
+  const {
+    workspaceId,
+    userId,
+    modelId,
+    inputTokens,
+    outputTokens,
+    costKes,
+    costUsd,
+  } = parsed.data;
 
   try {
     const [event] = await db
@@ -206,10 +265,13 @@ export async function POST(req: NextRequest) {
 
     const budgetStatus = await checkWorkspaceBudget(workspaceId);
 
-    return new Response(JSON.stringify({ event, budgetStatus }), { status: 201 });
+    return new Response(JSON.stringify({ event, budgetStatus }), {
+      status: 201,
+    });
   } catch (err) {
     console.error("Usage ingest error:", err);
-    return new Response(JSON.stringify({ error: "Failed to log usage" }), { status: 500 });
+    return new Response(JSON.stringify({ error: "Failed to log usage" }), {
+      status: 500,
+    });
   }
 }
-

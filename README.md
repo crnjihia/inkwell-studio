@@ -9,7 +9,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
 [![Turborepo](https://img.shields.io/badge/Turborepo-Monorepo-EF4444?logo=turborepo)](https://turbo.build/repo)
 [![Vitest](https://img.shields.io/badge/Vitest-37%2F37%20Passing-6E9F18?logo=vitest)](https://vitest.dev/)
-[![Timezone](https://img.shields.io/badge/Timezone-Africa%2FNairobi%20(EAT)-10B981)](https://en.wikipedia.org/wiki/East_Africa_Time)
+[![Timezone](<https://img.shields.io/badge/Timezone-Africa%2FNairobi%20(EAT)-10B981>)](https://en.wikipedia.org/wiki/East_Africa_Time)
 [![Currency](https://img.shields.io/badge/Currency-KES%20%2F%20USD-F59E0B)](#regional-east-african-context)
 [![License: MIT](https://img.shields.io/badge/License-MIT-gray.svg)](LICENSE)
 
@@ -72,6 +72,7 @@ flowchart TD
 ## Architecture Decision Records (ADRs)
 
 Key architectural trade-offs are documented under [`docs/adr/`](docs/adr/):
+
 - **[ADR 0001: Partitioning Edge Worker vs Origin Server Responsibilities](docs/adr/0001-edge-worker-vs-origin-responsibilities.md)**: Cloudflare Worker handles ingress, JWT auth, token bucket rate limits, edge cache, and WebSocket co-authoring; Next.js origin holds Anthropic secrets and executes Drizzle/Timescale queries.
 - **[ADR 0002: TimescaleDB for Usage Analytics & Drizzle ORM for Relational OLTP](docs/adr/0002-timescale-for-usage-and-drizzle-for-oltp.md)**: Hypertables and continuous aggregates for sub-millisecond dual-currency budget telemetry.
 - **[ADR 0003: Yjs CRDTs and Cloudflare Durable Objects for Real-Time Collaboration](docs/adr/0003-yjs-durable-objects-for-realtime-collaboration.md)**: Deterministic edge rooms (`DocumentRoom`) with binary update relay and transactional persistence.
@@ -116,27 +117,29 @@ inkwell-studio/
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| **Monorepo Engine** | npm Workspaces, Turborepo |
-| **Frontend Framework** | Next.js 14 (App Router), React 18, TypeScript (`strict`) |
-| **Styling & Design** | Tailwind CSS 3.4 (`darkMode: 'class'`), Lucide Icons |
-| **Rich Text Editor** | TipTap React, ProseMirror, Yjs (`y-prosemirror`) |
-| **Edge Compute** | Cloudflare Workers, Hono, Durable Objects (`DocumentRoom`), Miniflare |
-| **AI LLM Gateway** | `@anthropic-ai/sdk` (Claude 3.5 Sonnet / dynamic model fallback) |
-| **Database & Analytics** | PostgreSQL 16, TimescaleDB (Hypertables & Rollups), Drizzle ORM |
-| **Authentication** | Clerk Auth with zero-credential `AUTH_MODE=dev` fallback |
-| **Test Harness** | Vitest 1.6, Miniflare, 37 passing unit & integration tests |
+| Layer                    | Technology                                                            |
+| ------------------------ | --------------------------------------------------------------------- |
+| **Monorepo Engine**      | npm Workspaces, Turborepo                                             |
+| **Frontend Framework**   | Next.js 14 (App Router), React 18, TypeScript (`strict`)              |
+| **Styling & Design**     | Tailwind CSS 3.4 (`darkMode: 'class'`), Lucide Icons                  |
+| **Rich Text Editor**     | TipTap React, ProseMirror, Yjs (`y-prosemirror`)                      |
+| **Edge Compute**         | Cloudflare Workers, Hono, Durable Objects (`DocumentRoom`), Miniflare |
+| **AI LLM Gateway**       | `@anthropic-ai/sdk` (Claude 3.5 Sonnet / dynamic model fallback)      |
+| **Database & Analytics** | PostgreSQL 16, TimescaleDB (Hypertables & Rollups), Drizzle ORM       |
+| **Authentication**       | Clerk Auth with zero-credential `AUTH_MODE=dev` fallback              |
+| **Test Harness**         | Vitest 1.6, Miniflare, 37 passing unit & integration tests            |
 
 ---
 
 ## Quick Start
 
 ### 1. Prerequisites
+
 - **Node.js** >= 18.17.0
 - **Docker & Docker Compose** (for local TimescaleDB)
 
 ### 2. Clone and Setup
+
 ```bash
 git clone https://github.com/chris-nairobi/inkwell-studio.git
 cd inkwell-studio
@@ -145,6 +148,7 @@ npm install
 ```
 
 ### 3. Start Database & Run Migrations
+
 ```bash
 # Start local TimescaleDB container
 npm run docker:up
@@ -154,10 +158,12 @@ npm run seed --workspace=@inkwell/db
 ```
 
 ### 4. Run Development Servers
+
 ```bash
 # Start Next.js web application and Cloudflare edge workers
 npm run dev
 ```
+
 - **Web Studio**: [http://localhost:3000](http://localhost:3000)
 - **Edge Worker (Miniflare)**: [http://localhost:8787](http://localhost:8787)
 
@@ -172,6 +178,7 @@ npm test
 ```
 
 Expected output:
+
 ```text
  ✓ tests/editor-actions.test.ts (3 tests)
  ✓ tests/safeguards.test.ts (6 tests)
@@ -186,7 +193,6 @@ Expected output:
  Test Files  9 passed (9)
       Tests  37 passed (37)
 ```
-
 
 ## Contributing
 

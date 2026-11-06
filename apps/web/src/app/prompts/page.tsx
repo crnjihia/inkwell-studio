@@ -4,9 +4,19 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Header } from "@/components/common/Header";
 import { useLanguage } from "@/context/LanguageContext";
-import { PromptVersionHistory, type PromptVersionItem } from "@/components/prompts/PromptVersionHistory";
+import {
+  PromptVersionHistory,
+  type PromptVersionItem,
+} from "@/components/prompts/PromptVersionHistory";
 import { PromptDiffViewer } from "@/components/prompts/PromptDiffViewer";
-import { SlidersHorizontal, Plus, GitCompare, Sparkles, Check, X } from "lucide-react";
+import {
+  SlidersHorizontal,
+  Plus,
+  GitCompare,
+  Sparkles,
+  Check,
+  X,
+} from "lucide-react";
 
 interface PromptWithVersions {
   id: string;
@@ -35,7 +45,9 @@ export default function PromptsStudioPage() {
   const [systemPromptInput, setSystemPromptInput] = useState("");
   const [templateInput, setTemplateInput] = useState("");
   const [changeSummaryInput, setChangeSummaryInput] = useState("");
-  const [changeType, setChangeType] = useState<"major" | "minor" | "patch">("minor");
+  const [changeType, setChangeType] = useState<"major" | "minor" | "patch">(
+    "minor",
+  );
   const [makeActiveCheck, setMakeActiveCheck] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -91,7 +103,9 @@ export default function PromptsStudioPage() {
 
   // Open modal prefilled with current active version
   const handleOpenCreateModal = () => {
-    const activeVer = selectedPrompt?.versions.find((v) => v.isActive) || selectedPrompt?.versions[0];
+    const activeVer =
+      selectedPrompt?.versions.find((v) => v.isActive) ||
+      selectedPrompt?.versions[0];
     if (activeVer) {
       setSystemPromptInput(activeVer.systemPrompt);
       setTemplateInput(activeVer.userPromptTemplate);
@@ -106,7 +120,12 @@ export default function PromptsStudioPage() {
   // Submit new version
   const handleCreateVersion = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedPrompt || !systemPromptInput.trim() || !changeSummaryInput.trim()) return;
+    if (
+      !selectedPrompt ||
+      !systemPromptInput.trim() ||
+      !changeSummaryInput.trim()
+    )
+      return;
 
     setIsSubmitting(true);
     try {
@@ -150,7 +169,9 @@ export default function PromptsStudioPage() {
                 <SlidersHorizontal className="h-4 w-4" />
               </div>
               <h1 className="text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
-                {isSwahili ? "Studio ya Mielekezo ya AI" : "AI Prompt Version Studio"}
+                {isSwahili
+                  ? "Studio ya Mielekezo ya AI"
+                  : "AI Prompt Version Studio"}
               </h1>
             </div>
             <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
@@ -166,7 +187,11 @@ export default function PromptsStudioPage() {
               className="flex items-center gap-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-3 py-1.5 text-xs font-medium text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800/60 shadow-2xs"
             >
               <GitCompare className="h-3.5 w-3.5 text-zinc-500 dark:text-zinc-400" />
-              <span>{isSwahili ? "Linganisha Matoleo (A/B Test)" : "Compare Versions (A/B Test)"}</span>
+              <span>
+                {isSwahili
+                  ? "Linganisha Matoleo (A/B Test)"
+                  : "Compare Versions (A/B Test)"}
+              </span>
             </Link>
 
             <button
@@ -176,7 +201,9 @@ export default function PromptsStudioPage() {
               className="flex items-center gap-1.5 rounded-lg bg-zinc-900 dark:bg-zinc-100 px-3.5 py-1.5 text-xs font-medium text-white dark:text-zinc-900 shadow-2xs transition hover:bg-zinc-800 dark:hover:bg-zinc-200 disabled:opacity-50"
             >
               <Plus className="h-3.5 w-3.5" />
-              <span>{isSwahili ? "Chapisha Toleo Jipya" : "Publish New Version"}</span>
+              <span>
+                {isSwahili ? "Chapisha Toleo Jipya" : "Publish New Version"}
+              </span>
             </button>
           </div>
         </div>
@@ -186,7 +213,9 @@ export default function PromptsStudioPage() {
           {/* Left Column: Prompts List */}
           <div className="space-y-3">
             <h2 className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 px-1">
-              {isSwahili ? "Mielekezo Iliyopo (Templates)" : "Registered Prompts"}
+              {isSwahili
+                ? "Mielekezo Iliyopo (Templates)"
+                : "Registered Prompts"}
             </h2>
 
             {isLoading ? (
@@ -200,7 +229,8 @@ export default function PromptsStudioPage() {
             ) : (
               promptsList.map((prompt) => {
                 const isSelected = prompt.id === selectedPrompt?.id;
-                const activeVer = prompt.versions.find((v) => v.isActive) || prompt.versions[0];
+                const activeVer =
+                  prompt.versions.find((v) => v.isActive) || prompt.versions[0];
 
                 return (
                   <button
@@ -214,20 +244,26 @@ export default function PromptsStudioPage() {
                     }`}
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-medium text-xs text-zinc-900 dark:text-zinc-100">{prompt.name}</span>
+                      <span className="font-medium text-xs text-zinc-900 dark:text-zinc-100">
+                        {prompt.name}
+                      </span>
                       <span className="rounded bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 text-[11px] font-mono font-medium text-zinc-600 dark:text-zinc-400">
                         v{activeVer?.versionNumber || "1.0.0"}
                       </span>
                     </div>
 
-                    <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">{prompt.description}</p>
+                    <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">
+                      {prompt.description}
+                    </p>
 
                     <div className="mt-3 flex items-center gap-1.5 text-[11px]">
                       <span className="rounded bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 font-medium text-zinc-700 dark:text-zinc-300">
                         {prompt.contentType}
                       </span>
                       <span className="rounded bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-zinc-600 dark:text-zinc-400">
-                        {prompt.language === "sw" ? "🇰🇪 Kiswahili" : "🇬🇧 English"}
+                        {prompt.language === "sw"
+                          ? "🇰🇪 Kiswahili"
+                          : "🇬🇧 English"}
                       </span>
                     </div>
                   </button>
@@ -244,7 +280,9 @@ export default function PromptsStudioPage() {
                 promptName={selectedPrompt.name}
                 versions={selectedPrompt.versions}
                 onRollback={handleRollback}
-                onViewDiff={(vA, vB) => setDiffComparison({ versionA: vA, versionB: vB })}
+                onViewDiff={(vA, vB) =>
+                  setDiffComparison({ versionA: vA, versionB: vB })
+                }
                 language={language}
               />
             ) : null}
@@ -276,7 +314,9 @@ export default function PromptsStudioPage() {
               <div className="flex items-center gap-2">
                 <Sparkles className="h-4 w-4 text-zinc-700 dark:text-zinc-300" />
                 <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                  {isSwahili ? "Chapisha Toleo Jipya la Maagizo" : "Publish New Prompt Version"}
+                  {isSwahili
+                    ? "Chapisha Toleo Jipya la Maagizo"
+                    : "Publish New Prompt Version"}
                 </h3>
               </div>
               <button
@@ -291,7 +331,9 @@ export default function PromptsStudioPage() {
             <form onSubmit={handleCreateVersion} className="mt-4 space-y-4">
               <div>
                 <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300">
-                  {isSwahili ? "Maagizo ya Mfumo (System Prompt)" : "System Prompt"}
+                  {isSwahili
+                    ? "Maagizo ya Mfumo (System Prompt)"
+                    : "System Prompt"}
                 </label>
                 <textarea
                   rows={4}
@@ -304,7 +346,9 @@ export default function PromptsStudioPage() {
 
               <div>
                 <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300">
-                  {isSwahili ? "Kiolezo cha Mtumiaji (User Template with {{topic}})" : "User Prompt Template"}
+                  {isSwahili
+                    ? "Kiolezo cha Mtumiaji (User Template with {{topic}})"
+                    : "User Prompt Template"}
                 </label>
                 <textarea
                   rows={2}
@@ -322,12 +366,22 @@ export default function PromptsStudioPage() {
                   </label>
                   <select
                     value={changeType}
-                    onChange={(e) => setChangeType(e.target.value as "major" | "minor" | "patch")}
+                    onChange={(e) =>
+                      setChangeType(
+                        e.target.value as "major" | "minor" | "patch",
+                      )
+                    }
                     className="mt-1 w-full rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-2 text-xs font-medium text-zinc-800 dark:text-zinc-200 focus:border-zinc-400 dark:focus:border-zinc-600 focus:outline-hidden"
                   >
-                    <option value="patch">Patch (e.g. 1.0.1 - Minor wording tweak)</option>
-                    <option value="minor">Minor (e.g. 1.1.0 - New guidance or formatting)</option>
-                    <option value="major">Major (e.g. 2.0.0 - Complete prompt rewrite)</option>
+                    <option value="patch">
+                      Patch (e.g. 1.0.1 - Minor wording tweak)
+                    </option>
+                    <option value="minor">
+                      Minor (e.g. 1.1.0 - New guidance or formatting)
+                    </option>
+                    <option value="major">
+                      Major (e.g. 2.0.0 - Complete prompt rewrite)
+                    </option>
                   </select>
                 </div>
 
@@ -339,14 +393,20 @@ export default function PromptsStudioPage() {
                       onChange={(e) => setMakeActiveCheck(e.target.checked)}
                       className="rounded border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 focus:ring-zinc-500"
                     />
-                    <span>{isSwahili ? "Weka toleo hili kuwa linalotumika sasa" : "Set as active immediately"}</span>
+                    <span>
+                      {isSwahili
+                        ? "Weka toleo hili kuwa linalotumika sasa"
+                        : "Set as active immediately"}
+                    </span>
                   </label>
                 </div>
               </div>
 
               <div>
                 <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300">
-                  {isSwahili ? "Muhtasari wa Mabadiliko (Audit Change Summary)" : "Audit Change Summary"}
+                  {isSwahili
+                    ? "Muhtasari wa Mabadiliko (Audit Change Summary)"
+                    : "Audit Change Summary"}
                 </label>
                 <input
                   type="text"
@@ -376,7 +436,15 @@ export default function PromptsStudioPage() {
                   className="flex items-center gap-1.5 rounded-lg bg-zinc-900 dark:bg-zinc-100 px-3.5 py-1.5 text-xs font-medium text-white dark:text-zinc-900 shadow-2xs transition hover:bg-zinc-800 dark:hover:bg-zinc-200 disabled:opacity-50"
                 >
                   <Check className="h-3.5 w-3.5" />
-                  <span>{isSubmitting ? (isSwahili ? "Inasajili..." : "Publishing...") : isSwahili ? "Sajili Toleo" : "Publish Version"}</span>
+                  <span>
+                    {isSubmitting
+                      ? isSwahili
+                        ? "Inasajili..."
+                        : "Publishing..."
+                      : isSwahili
+                        ? "Sajili Toleo"
+                        : "Publish Version"}
+                  </span>
                 </button>
               </div>
             </form>

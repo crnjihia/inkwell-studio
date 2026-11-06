@@ -28,12 +28,18 @@ interface PublishedArticleReaderProps {
   article: ArticleData;
 }
 
-export function PublishedArticleReader({ article }: PublishedArticleReaderProps) {
+export function PublishedArticleReader({
+  article,
+}: PublishedArticleReaderProps) {
   const { language, setLanguage, isSwahili } = useLanguage();
 
   const title = isSwahili ? article.title : article.titleEn || article.title;
-  const excerpt = isSwahili ? article.excerpt : article.excerptEn || article.excerpt;
-  const contentHtml = isSwahili ? article.contentHtml : article.contentHtmlEn || article.contentHtml;
+  const excerpt = isSwahili
+    ? article.excerpt
+    : article.excerptEn || article.excerpt;
+  const contentHtml = isSwahili
+    ? article.contentHtml
+    : article.contentHtmlEn || article.contentHtml;
 
   const wordCount = contentHtml.replace(/<[^>]+>/g, " ").split(/\s+/).length;
   const readTimeMin = Math.max(1, Math.ceil(wordCount / 200));
@@ -65,7 +71,7 @@ export function PublishedArticleReader({ article }: PublishedArticleReaderProps)
             <div className="h-3 w-px bg-zinc-200 dark:border-zinc-800 mx-1" />
             <Link
               href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                title
+                title,
               )}&url=${encodeURIComponent(shareUrl)}`}
               target="_blank"
               rel="noopener noreferrer"
@@ -96,16 +102,16 @@ export function PublishedArticleReader({ article }: PublishedArticleReaderProps)
             <div className="h-6 w-6 rounded-full bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950 font-semibold flex items-center justify-center text-[10px]">
               CO
             </div>
-            <span className="font-sans font-medium text-zinc-900 dark:text-zinc-200">{article.authorName}</span>
+            <span className="font-sans font-medium text-zinc-900 dark:text-zinc-200">
+              {article.authorName}
+            </span>
           </div>
 
           <span className="text-zinc-300 dark:text-zinc-700">•</span>
 
           <div className="flex items-center gap-1">
             <Calendar className="h-3 w-3 text-zinc-400" />
-            <time dateTime={article.publishedAt}>
-              {formattedDate} (EAT)
-            </time>
+            <time dateTime={article.publishedAt}>{formattedDate} (EAT)</time>
           </div>
 
           <span className="text-zinc-300 dark:text-zinc-700">•</span>
@@ -134,7 +140,9 @@ export function PublishedArticleReader({ article }: PublishedArticleReaderProps)
             </div>
             <div>
               <h4 className="text-xs font-semibold text-zinc-900 dark:text-zinc-100">
-                {isSwahili ? "Imechapishwa na Inkwell Studio" : "Published via Inkwell Studio"}
+                {isSwahili
+                  ? "Imechapishwa na Inkwell Studio"
+                  : "Published via Inkwell Studio"}
               </h4>
               <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                 {isSwahili
@@ -148,4 +156,3 @@ export function PublishedArticleReader({ article }: PublishedArticleReaderProps)
     </article>
   );
 }
-

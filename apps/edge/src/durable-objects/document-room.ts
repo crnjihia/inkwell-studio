@@ -19,7 +19,8 @@ export class DocumentRoom implements DurableObject {
 
     // Hydrate state from Durable Object transactional storage on startup
     this.state.blockConcurrencyWhile(async () => {
-      const storedSnapshot = await this.state.storage.get<Uint8Array>("yjs_snapshot");
+      const storedSnapshot =
+        await this.state.storage.get<Uint8Array>("yjs_snapshot");
       if (storedSnapshot) {
         Y.applyUpdate(this.doc, storedSnapshot);
       }
@@ -65,9 +66,12 @@ export class DocumentRoom implements DurableObject {
     // 2. HTTP Endpoint to inspect or flush state manually
     if (url.pathname.endsWith("/flush")) {
       await this.persistSnapshotToDatabase();
-      return new Response(JSON.stringify({ status: "flushed", timestamp: Date.now() }), {
-        headers: { "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ status: "flushed", timestamp: Date.now() }),
+        {
+          headers: { "Content-Type": "application/json" },
+        },
+      );
     }
 
     if (url.pathname.endsWith("/state")) {
@@ -77,7 +81,7 @@ export class DocumentRoom implements DurableObject {
           isDirty: this.isDirty,
           lastFlushTime: this.lastFlushTime,
         }),
-        { headers: { "Content-Type": "application/json" } }
+        { headers: { "Content-Type": "application/json" } },
       );
     }
 
@@ -94,7 +98,7 @@ export class DocumentRoom implements DurableObject {
       JSON.stringify({
         type: "sync_step_1",
         payload: Array.from(initialDocState),
-      })
+      }),
     );
 
     // Broadcast updated awareness list (active collaborators)
@@ -116,7 +120,10 @@ export class DocumentRoom implements DurableObject {
           }
         }
       } catch (err) {
-        console.error("Error processing WebSocket message in DocumentRoom:", err);
+        console.error(
+          "Error processing WebSocket message in DocumentRoom:",
+          err,
+        );
       }
     });
 
@@ -194,11 +201,12 @@ export class DocumentRoom implements DurableObject {
             snapshot: Array.from(consolidatedSnapshot),
             timestamp: this.lastFlushTime,
           }),
-        }).catch((err) => console.warn("Background origin flush notification failed:", err));
+        }).catch((err) =>
+          console.warn("Background origin flush notification failed:", err),
+        );
       }
     } catch (err) {
       console.error("Failed to persist snapshot in DocumentRoom:", err);
     }
   }
 }
-

@@ -10,7 +10,9 @@ describe("Phase 7: Static Publishing & Cloudflare Cache Invalidation", () => {
         {
           type: "heading",
           attrs: { level: 1 },
-          content: [{ type: "text", text: "Kilimo cha Kisasa Kaunti ya Nakuru" }],
+          content: [
+            { type: "text", text: "Kilimo cha Kisasa Kaunti ya Nakuru" },
+          ],
         },
         {
           type: "paragraph",
@@ -36,8 +38,12 @@ describe("Phase 7: Static Publishing & Cloudflare Cache Invalidation", () => {
     const html = serializeTipTapToHtml(docJson);
 
     expect(html).toContain("<h1>Kilimo cha Kisasa Kaunti ya Nakuru</h1>");
-    expect(html).toContain("<p>Mradi huu unalenga kuwawezesha wakulima 400 wa Kenya.</p>");
-    expect(html).toContain("<blockquote>Teknolojia inaleta mageuzi ya haraka Afrika Mashariki.</blockquote>");
+    expect(html).toContain(
+      "<p>Mradi huu unalenga kuwawezesha wakulima 400 wa Kenya.</p>",
+    );
+    expect(html).toContain(
+      "<blockquote>Teknolojia inaleta mageuzi ya haraka Afrika Mashariki.</blockquote>",
+    );
   });
 
   it("escapes malicious HTML characters to prevent XSS during publishing", () => {
@@ -53,7 +59,9 @@ describe("Phase 7: Static Publishing & Cloudflare Cache Invalidation", () => {
 
     const html = serializeTipTapToHtml(maliciousDoc);
     expect(html).not.toContain("<script>");
-    expect(html).toContain("&lt;script&gt;alert(&quot;hack&quot;)&lt;/script&gt;");
+    expect(html).toContain(
+      "&lt;script&gt;alert(&quot;hack&quot;)&lt;/script&gt;",
+    );
   });
 
   it("executes cache purge within the < 1000ms SLA target", async () => {
@@ -93,4 +101,3 @@ describe("Phase 7: Static Publishing & Cloudflare Cache Invalidation", () => {
     expect(jsonLd.author.address.addressLocality).toBe("Nairobi");
   });
 });
-

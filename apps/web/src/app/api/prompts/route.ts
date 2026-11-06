@@ -7,8 +7,12 @@ export const dynamic = "force-dynamic";
 
 const createPromptVersionSchema = z.object({
   promptId: z.string().uuid(),
-  systemPrompt: z.string().min(10, "System prompt must be at least 10 characters"),
-  userPromptTemplate: z.string().min(5, "Template must be at least 5 characters"),
+  systemPrompt: z
+    .string()
+    .min(10, "System prompt must be at least 10 characters"),
+  userPromptTemplate: z
+    .string()
+    .min(5, "Template must be at least 5 characters"),
   changeSummary: z.string().min(5, "Audit change summary is required"),
   changeType: z.enum(["major", "minor", "patch"]).default("minor"),
   makeActive: z.boolean().default(true),
@@ -36,12 +40,16 @@ export async function GET(req: NextRequest) {
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.warn("Prompts API: Database not reachable, returning synthetic Nairobi prompts:", error);
+    console.warn(
+      "Prompts API: Database not reachable, returning synthetic Nairobi prompts:",
+      error,
+    );
     const syntheticPrompts = [
       {
         id: "prompt_swahili_blog",
         name: "Mwandishi wa Makala ya Kiswahili",
-        description: "Hutengeneza makala ya kina na machapisho ya kijamii yanayoeleweka Afrika Mashariki.",
+        description:
+          "Hutengeneza makala ya kina na machapisho ya kijamii yanayoeleweka Afrika Mashariki.",
         contentType: "blog",
         language: "sw",
         activeVersionId: "pv_swahili_01",
@@ -62,7 +70,8 @@ export async function GET(req: NextRequest) {
             id: "pv_swahili_00",
             versionNumber: "1.0.0",
             versionCounter: 1,
-            systemPrompt: "Wewe ni mhariri wa makala za teknolojia Afrika Mashariki.",
+            systemPrompt:
+              "Wewe ni mhariri wa makala za teknolojia Afrika Mashariki.",
             userPromptTemplate: "Andika makala kuhusu {{topic}}.",
             changeSummary: "Toleo la awali.",
             isActive: false,
@@ -73,7 +82,8 @@ export async function GET(req: NextRequest) {
       {
         id: "prompt_usaid_grant",
         name: "USAID East Africa Grant Writer",
-        description: "Produces institutional grant applications with Theory of Change and KES budget structures.",
+        description:
+          "Produces institutional grant applications with Theory of Change and KES budget structures.",
         contentType: "grant_proposal",
         language: "en",
         activeVersionId: "pv_grant_01",
@@ -84,8 +94,10 @@ export async function GET(req: NextRequest) {
             versionCounter: 1,
             systemPrompt:
               "You are a senior institutional grant specialist operating in Nairobi, Kenya. Structure proposals with Executive Summary, Problem Statement, Theory of Change, and Budget in KES and USD.",
-            userPromptTemplate: "Draft a comprehensive grant application for {{topic}}. Target budget in KES.",
-            changeSummary: "Initial version for USAID and regional development partners.",
+            userPromptTemplate:
+              "Draft a comprehensive grant application for {{topic}}. Target budget in KES.",
+            changeSummary:
+              "Initial version for USAID and regional development partners.",
             isActive: true,
             createdAt: new Date().toISOString(),
           },
@@ -119,7 +131,7 @@ export async function POST(req: NextRequest) {
         error: "Validation failed",
         details: parsed.error.flatten().fieldErrors,
       }),
-      { status: 422, headers: { "Content-Type": "application/json" } }
+      { status: 422, headers: { "Content-Type": "application/json" } },
     );
   }
 
@@ -204,4 +216,3 @@ export async function POST(req: NextRequest) {
     });
   }
 }
-

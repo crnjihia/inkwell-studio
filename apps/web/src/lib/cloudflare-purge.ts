@@ -10,7 +10,9 @@ export interface PurgeResult {
   error?: string;
 }
 
-export async function purgeCloudflareUrls(urls: string[]): Promise<PurgeResult> {
+export async function purgeCloudflareUrls(
+  urls: string[],
+): Promise<PurgeResult> {
   const startTime = Date.now();
   const targetSla = "< 1000ms";
 
@@ -26,11 +28,13 @@ export async function purgeCloudflareUrls(urls: string[]): Promise<PurgeResult> 
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ files: urls }),
-        }
+        },
       );
 
       const latencyMs = Date.now() - startTime;
-      const data = (await response.json().catch(() => ({ success: false }))) as {
+      const data = (await response
+        .json()
+        .catch(() => ({ success: false }))) as {
         success?: boolean;
       };
 
@@ -60,11 +64,14 @@ export async function purgeCloudflareUrls(urls: string[]): Promise<PurgeResult> 
   // 2. Edge Worker Cache API Purge
   if (env.NEXT_PUBLIC_EDGE_URL) {
     try {
-      const edgeResponse = await fetch(`${env.NEXT_PUBLIC_EDGE_URL}/api/cache/purge`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ urls }),
-      });
+      const edgeResponse = await fetch(
+        `${env.NEXT_PUBLIC_EDGE_URL}/api/cache/purge`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ urls }),
+        },
+      );
 
       const latencyMs = Date.now() - startTime;
       if (edgeResponse.ok) {
@@ -95,4 +102,3 @@ export async function purgeCloudflareUrls(urls: string[]): Promise<PurgeResult> 
     provider: "local-mock",
   };
 }
-

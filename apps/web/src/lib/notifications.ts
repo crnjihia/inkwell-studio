@@ -20,11 +20,15 @@ export interface EmittedEmailNotification {
 export const mockEmailQueue: EmittedEmailNotification[] = [];
 
 export interface NotificationAdapter {
-  sendBudgetAlert(params: BudgetAlertParams): Promise<{ success: boolean; notificationId: string }>;
+  sendBudgetAlert(
+    params: BudgetAlertParams,
+  ): Promise<{ success: boolean; notificationId: string }>;
 }
 
 export class MockEmailNotificationAdapter implements NotificationAdapter {
-  async sendBudgetAlert(params: BudgetAlertParams): Promise<{ success: boolean; notificationId: string }> {
+  async sendBudgetAlert(
+    params: BudgetAlertParams,
+  ): Promise<{ success: boolean; notificationId: string }> {
     const isExceeded = params.alertType === "exceeded_100";
     const notificationId = `notif_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
 
@@ -57,7 +61,9 @@ Nairobi, Kenya
     };
 
     mockEmailQueue.push(record);
-    console.log(`[MockEmailAdapter] Sent budget alert to ${params.recipientEmail}: "${subject}"`);
+    console.log(
+      `[MockEmailAdapter] Sent budget alert to ${params.recipientEmail}: "${subject}"`,
+    );
 
     return {
       success: true,
@@ -70,4 +76,3 @@ Nairobi, Kenya
 export function getNotificationAdapter(): NotificationAdapter {
   return new MockEmailNotificationAdapter();
 }
-

@@ -1,7 +1,9 @@
 import { z } from "zod";
 
 const envSchema = z.object({
-  NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+  NODE_ENV: z
+    .enum(["development", "test", "production"])
+    .default("development"),
   NEXT_PUBLIC_APP_URL: z.string().url().default("http://localhost:3000"),
   NEXT_PUBLIC_EDGE_URL: z.string().url().default("http://localhost:8787"),
   APP_TIMEZONE: z.string().default("Africa/Nairobi"),
@@ -49,7 +51,8 @@ export const env = envSchema.parse({
   AI_MOCK_MODE: process.env.AI_MOCK_MODE,
   DATABASE_URL: process.env.DATABASE_URL,
   AUTH_MODE: process.env.AUTH_MODE,
-  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
+    process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
   CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
   CLOUDFLARE_ACCOUNT_ID: process.env.CLOUDFLARE_ACCOUNT_ID,
   CLOUDFLARE_ZONE_ID: process.env.CLOUDFLARE_ZONE_ID,
@@ -57,4 +60,3 @@ export const env = envSchema.parse({
   EDGE_RATE_LIMIT_RPM: process.env.EDGE_RATE_LIMIT_RPM,
   EMAIL_ADAPTER: process.env.EMAIL_ADAPTER,
 });
-

@@ -1,4 +1,12 @@
-import { pgTable, text, timestamp, uuid, varchar, boolean, integer } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+  varchar,
+  boolean,
+  integer,
+} from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { workspaces, users } from "./users";
 
@@ -12,8 +20,12 @@ export const prompts = pgTable("prompts", {
   contentType: varchar("content_type", { length: 32 }).notNull(), // 'blog' | 'social' | 'grant_proposal'
   language: varchar("language", { length: 10 }).default("en").notNull(), // 'en' | 'sw'
   activeVersionId: uuid("active_version_id"),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
 });
 
 // Immutable prompt versions table: updates create a new version row
@@ -31,7 +43,9 @@ export const promptVersions = pgTable("prompt_versions", {
   createdById: varchar("created_by_id", { length: 255 })
     .notNull()
     .references(() => users.id),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
 });
 
 export const promptsRelations = relations(prompts, ({ one, many }) => ({
@@ -52,4 +66,3 @@ export const promptVersionsRelations = relations(promptVersions, ({ one }) => ({
     references: [users.id],
   }),
 }));
-

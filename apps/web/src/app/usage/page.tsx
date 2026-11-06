@@ -41,7 +41,9 @@ interface RecentUsageEvent {
 export default function UsageDashboardPage() {
   const { language, setLanguage, isSwahili } = useLanguage();
   const [summary, setSummary] = useState<UsageSummary | null>(null);
-  const [budgetStatus, setBudgetStatus] = useState<BudgetStatusData | null>(null);
+  const [budgetStatus, setBudgetStatus] = useState<BudgetStatusData | null>(
+    null,
+  );
   const [dailyData, setDailyData] = useState<DailyUsageItem[]>([]);
   const [recentEvents, setRecentEvents] = useState<RecentUsageEvent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -80,7 +82,9 @@ export default function UsageDashboardPage() {
                 <Coins className="h-4 w-4" />
               </div>
               <h1 className="text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
-                {isSwahili ? "Dashibodi ya Matumizi na Gharama" : "Usage & Cost Telemetry"}
+                {isSwahili
+                  ? "Dashibodi ya Matumizi na Gharama"
+                  : "Usage & Cost Telemetry"}
               </h1>
             </div>
             <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
@@ -91,7 +95,9 @@ export default function UsageDashboardPage() {
           </div>
 
           <div className="flex items-center gap-2 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 text-xs text-zinc-600 dark:text-zinc-400 shadow-2xs font-mono">
-            <span>Saa: <strong>Africa/Nairobi (EAT)</strong></span>
+            <span>
+              Saa: <strong>Africa/Nairobi (EAT)</strong>
+            </span>
           </div>
         </div>
 
@@ -119,7 +125,9 @@ export default function UsageDashboardPage() {
                 <Coins className="h-4 w-4" />
               </div>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">{summary.formattedCostKes}</span>
+                <span className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                  {summary.formattedCostKes}
+                </span>
               </div>
               <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
                 {summary.formattedCostUsd} USD (1 USD = 130 KES)
@@ -140,7 +148,8 @@ export default function UsageDashboardPage() {
                 </span>
               </div>
               <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-                In: {summary.totalInputTokens.toLocaleString()} • Out: {summary.totalOutputTokens.toLocaleString()}
+                In: {summary.totalInputTokens.toLocaleString()} • Out:{" "}
+                {summary.totalOutputTokens.toLocaleString()}
               </p>
             </div>
 
@@ -158,7 +167,8 @@ export default function UsageDashboardPage() {
                 </span>
               </div>
               <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-                KSh {budgetStatus.budgetMonthlyKes.toLocaleString()} {isSwahili ? "kila mwezi" : "monthly allocation"}
+                KSh {budgetStatus.budgetMonthlyKes.toLocaleString()}{" "}
+                {isSwahili ? "kila mwezi" : "monthly allocation"}
               </p>
             </div>
 
@@ -176,7 +186,9 @@ export default function UsageDashboardPage() {
                 </span>
               </div>
               <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-                {isSwahili ? "Kupitia Claude 3.5 Sonnet" : "Across Claude 3.5 Sonnet"}
+                {isSwahili
+                  ? "Kupitia Claude 3.5 Sonnet"
+                  : "Across Claude 3.5 Sonnet"}
               </p>
             </div>
           </div>
@@ -191,15 +203,21 @@ export default function UsageDashboardPage() {
             <div className="flex items-center gap-2">
               <ArrowDownUp className="h-4 w-4 text-zinc-500 dark:text-zinc-400" />
               <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                {isSwahili ? "Daftari la Matukio ya Hivi Karibuni (Usage Ledger)" : "Recent Usage Events Ledger"}
+                {isSwahili
+                  ? "Daftari la Matukio ya Hivi Karibuni (Usage Ledger)"
+                  : "Recent Usage Events Ledger"}
               </h3>
             </div>
-            <span className="text-xs text-zinc-400 dark:text-zinc-500 font-mono">TimescaleDB Hypertable</span>
+            <span className="text-xs text-zinc-400 dark:text-zinc-500 font-mono">
+              TimescaleDB Hypertable
+            </span>
           </div>
 
           {recentEvents.length === 0 ? (
             <div className="py-8 text-center text-xs text-zinc-400 dark:text-zinc-500">
-              {isSwahili ? "Hakuna matukio yaliyorekodiwa bado." : "No usage events found."}
+              {isSwahili
+                ? "Hakuna matukio yaliyorekodiwa bado."
+                : "No usage events found."}
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -223,18 +241,29 @@ export default function UsageDashboardPage() {
                     }).format(new Date(evt.time));
 
                     return (
-                      <tr key={evt.id} className="hover:bg-zinc-50 dark:hover:bg-zinc-800/30 transition-colors">
+                      <tr
+                        key={evt.id}
+                        className="hover:bg-zinc-50 dark:hover:bg-zinc-800/30 transition-colors"
+                      >
                         <td className="py-2.5 px-3 whitespace-nowrap text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5 font-sans">
                           <Clock className="h-3 w-3 text-zinc-400 dark:text-zinc-500" />
                           {formattedTime}
                         </td>
-                        <td className="py-2.5 px-3 font-medium text-zinc-900 dark:text-zinc-100">{evt.modelId}</td>
-                        <td className="py-2.5 px-3">{evt.inputTokens.toLocaleString()}</td>
-                        <td className="py-2.5 px-3">{evt.outputTokens.toLocaleString()}</td>
+                        <td className="py-2.5 px-3 font-medium text-zinc-900 dark:text-zinc-100">
+                          {evt.modelId}
+                        </td>
+                        <td className="py-2.5 px-3">
+                          {evt.inputTokens.toLocaleString()}
+                        </td>
+                        <td className="py-2.5 px-3">
+                          {evt.outputTokens.toLocaleString()}
+                        </td>
                         <td className="py-2.5 px-3 text-right font-medium text-zinc-900 dark:text-zinc-100">
                           {evt.formattedKes}
                         </td>
-                        <td className="py-2.5 px-3 text-right text-zinc-500 dark:text-zinc-400">${evt.costUsd.toFixed(4)}</td>
+                        <td className="py-2.5 px-3 text-right text-zinc-500 dark:text-zinc-400">
+                          ${evt.costUsd.toFixed(4)}
+                        </td>
                       </tr>
                     );
                   })}

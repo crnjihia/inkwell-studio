@@ -1,4 +1,12 @@
-import { pgTable, text, timestamp, uuid, numeric, boolean, varchar } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+  numeric,
+  boolean,
+  varchar,
+} from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
 export const users = pgTable("users", {
@@ -6,8 +14,12 @@ export const users = pgTable("users", {
   email: varchar("email", { length: 255 }).notNull().unique(),
   name: varchar("name", { length: 255 }).notNull(),
   avatarUrl: text("avatar_url"),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
 });
 
 export const workspaces = pgTable("workspaces", {
@@ -17,11 +29,19 @@ export const workspaces = pgTable("workspaces", {
   ownerId: varchar("owner_id", { length: 255 })
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  budgetMonthlyKes: numeric("budget_monthly_kes", { precision: 10, scale: 2 }).default("25000.00").notNull(),
-  budgetMonthlyUsd: numeric("budget_monthly_usd", { precision: 10, scale: 2 }).default("200.00").notNull(),
+  budgetMonthlyKes: numeric("budget_monthly_kes", { precision: 10, scale: 2 })
+    .default("25000.00")
+    .notNull(),
+  budgetMonthlyUsd: numeric("budget_monthly_usd", { precision: 10, scale: 2 })
+    .default("200.00")
+    .notNull(),
   hardStopEnabled: boolean("hard_stop_enabled").default(false).notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
 });
 
 export const workspaceMembers = pgTable("workspace_members", {
@@ -33,7 +53,9 @@ export const workspaceMembers = pgTable("workspace_members", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   role: varchar("role", { length: 32 }).default("editor").notNull(), // 'admin' | 'editor' | 'viewer'
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
@@ -49,14 +71,16 @@ export const workspacesRelations = relations(workspaces, ({ one, many }) => ({
   members: many(workspaceMembers),
 }));
 
-export const workspaceMembersRelations = relations(workspaceMembers, ({ one }) => ({
-  workspace: one(workspaces, {
-    fields: [workspaceMembers.workspaceId],
-    references: [workspaces.id],
+export const workspaceMembersRelations = relations(
+  workspaceMembers,
+  ({ one }) => ({
+    workspace: one(workspaces, {
+      fields: [workspaceMembers.workspaceId],
+      references: [workspaces.id],
+    }),
+    user: one(users, {
+      fields: [workspaceMembers.userId],
+      references: [users.id],
+    }),
   }),
-  user: one(users, {
-    fields: [workspaceMembers.userId],
-    references: [users.id],
-  }),
-}));
-
+);

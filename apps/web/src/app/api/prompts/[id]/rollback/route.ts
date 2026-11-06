@@ -6,14 +6,17 @@ export const dynamic = "force-dynamic";
 
 const rollbackSchema = z.object({
   targetVersionId: z.string().uuid("Target version ID must be a valid UUID"),
-  rollbackReason: z.string().min(3, "Please provide a reason for the rollback").default("Restored previous stable version"),
+  rollbackReason: z
+    .string()
+    .min(3, "Please provide a reason for the rollback")
+    .default("Restored previous stable version"),
   userId: z.string().default("user_chris_nairobi"),
 });
 
 // POST /api/prompts/[id]/rollback - Roll back to a previous prompt version
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   const promptId = params.id;
 
@@ -21,10 +24,13 @@ export async function POST(
   try {
     body = await req.json();
   } catch {
-    return new Response(JSON.stringify({ error: "Invalid JSON request body" }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ error: "Invalid JSON request body" }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   }
 
   const parsed = rollbackSchema.safeParse(body);
@@ -34,7 +40,7 @@ export async function POST(
         error: "Validation failed",
         details: parsed.error.flatten().fieldErrors,
       }),
-      { status: 422, headers: { "Content-Type": "application/json" } }
+      { status: 422, headers: { "Content-Type": "application/json" } },
     );
   }
 
@@ -57,14 +63,16 @@ export async function POST(
     const targetVersion = await db.query.promptVersions.findFirst({
       where: and(
         eq(promptVersions.id, targetVersionId),
-        eq(promptVersions.promptId, promptId)
+        eq(promptVersions.promptId, promptId),
       ),
     });
 
     if (!targetVersion) {
       return new Response(
-        JSON.stringify({ error: "Target version does not exist for this prompt" }),
-        { status: 404, headers: { "Content-Type": "application/json" } }
+        JSON.stringify({
+          error: "Target version does not exist for this prompt",
+        }),
+        { status: 404, headers: { "Content-Type": "application/json" } },
       );
     }
 
@@ -102,14 +110,13 @@ export async function POST(
           timestamp: new Date().toISOString(),
         },
       }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
+      { status: 200, headers: { "Content-Type": "application/json" } },
     );
   } catch (error) {
     console.error("Rollback failed:", error);
     return new Response(
       JSON.stringify({ error: "Failed to execute prompt rollback" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
+      { status: 500, headers: { "Content-Type": "application/json" } },
     );
   }
 }
-

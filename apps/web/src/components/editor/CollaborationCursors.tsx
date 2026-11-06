@@ -43,19 +43,23 @@ export function CollaborationCursors({
               ? "Umeunganishwa na DocumentRoom Durable Object"
               : "Connected to DocumentRoom Durable Object"
             : isSwahili
-            ? "Mawasiliano yanakatika, unahariri bila mtandao"
-            : "Reconnecting, editing offline"
+              ? "Mawasiliano yanakatika, unahariri bila mtandao"
+              : "Reconnecting, editing offline"
         }
       >
         {isConnected ? (
           <>
             <Wifi className="h-3 w-3" />
-            <span className="hidden sm:inline">{isSwahili ? "Mbashara" : "Live"}</span>
+            <span className="hidden sm:inline">
+              {isSwahili ? "Mbashara" : "Live"}
+            </span>
           </>
         ) : (
           <>
             <WifiOff className="h-3 w-3 animate-pulse" />
-            <span className="hidden sm:inline">{isSwahili ? "Bila Mtandao" : "Offline"}</span>
+            <span className="hidden sm:inline">
+              {isSwahili ? "Bila Mtandao" : "Offline"}
+            </span>
           </>
         )}
       </div>

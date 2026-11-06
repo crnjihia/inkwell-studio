@@ -57,7 +57,7 @@ cacheRouter.get("/p/:slug", async (c) => {
     response.headers.set("CF-Cache-Status", "MISS");
     response.headers.set(
       "Cache-Control",
-      "public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400"
+      "public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400",
     );
 
     // 3. Put into edge cache asynchronously

@@ -9,7 +9,11 @@ export const dynamic = "force-dynamic";
 
 const publishSchema = z.object({
   documentId: z.string().uuid(),
-  slug: z.string().min(2).regex(/^[a-z0-9-]+$/, "Slug must be lowercase alphanumeric with hyphens").optional(),
+  slug: z
+    .string()
+    .min(2)
+    .regex(/^[a-z0-9-]+$/, "Slug must be lowercase alphanumeric with hyphens")
+    .optional(),
   title: z.string().min(1).optional(),
   excerpt: z.string().optional(),
   authorName: z.string().default("Chris Odhiambo"),
@@ -21,10 +25,13 @@ export async function POST(req: NextRequest) {
   try {
     body = await req.json();
   } catch {
-    return new Response(JSON.stringify({ error: "Invalid JSON request payload" }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ error: "Invalid JSON request payload" }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   }
 
   const parsed = publishSchema.safeParse(body);
@@ -34,11 +41,18 @@ export async function POST(req: NextRequest) {
         error: "Validation failed",
         details: parsed.error.flatten().fieldErrors,
       }),
-      { status: 422, headers: { "Content-Type": "application/json" } }
+      { status: 422, headers: { "Content-Type": "application/json" } },
     );
   }
 
-  const { documentId, slug: requestedSlug, title: customTitle, excerpt, authorName, language } = parsed.data;
+  const {
+    documentId,
+    slug: requestedSlug,
+    title: customTitle,
+    excerpt,
+    authorName,
+    language,
+  } = parsed.data;
 
   try {
     // 1. Fetch document from DB or use fallback
@@ -63,11 +77,18 @@ export async function POST(req: NextRequest) {
             {
               type: "heading",
               attrs: { level: 1 },
-              content: [{ type: "text", text: "Kilimo cha Kisasa Kaunti ya Nakuru" }],
+              content: [
+                { type: "text", text: "Kilimo cha Kisasa Kaunti ya Nakuru" },
+              ],
             },
             {
               type: "paragraph",
-              content: [{ type: "text", text: "Mradi unalenga kusaidia wakulima wa Nakuru." }],
+              content: [
+                {
+                  type: "text",
+                  text: "Mradi unalenga kusaidia wakulima wa Nakuru.",
+                },
+              ],
             },
           ],
         },
@@ -167,14 +188,13 @@ export async function POST(req: NextRequest) {
           provider: purgeResult.provider,
         },
       }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
+      { status: 200, headers: { "Content-Type": "application/json" } },
     );
   } catch (error) {
     console.error("Publishing failed:", error);
     return new Response(
       JSON.stringify({ error: "Failed to publish document" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
+      { status: 500, headers: { "Content-Type": "application/json" } },
     );
   }
 }
-

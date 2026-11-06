@@ -93,4 +93,3 @@ describe("Phase 2: Generation Engine & SSE Token Accounting", () => {
     expect(prompt.versionNumber).toBe("1.0.0-builtin");
   });
 });
-

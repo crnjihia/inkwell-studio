@@ -35,7 +35,9 @@ export function BudgetAlertBanner({
           <div className="flex-1">
             <div className="flex items-center justify-between gap-2">
               <h4 className="text-xs font-semibold text-rose-950 dark:text-rose-200">
-                {isSwahili ? "Tahadhari: Ukomo wa Bajeti ya AI Umefikiwa (100%)" : "Alert: AI Budget Limit Reached (100%)"}
+                {isSwahili
+                  ? "Tahadhari: Ukomo wa Bajeti ya AI Umefikiwa (100%)"
+                  : "Alert: AI Budget Limit Reached (100%)"}
               </h4>
               <span className="rounded-md bg-rose-100 dark:bg-rose-900/50 px-2 py-0.5 text-xs font-mono font-semibold text-rose-800 dark:text-rose-300">
                 {percentage.toFixed(1)}%
@@ -57,7 +59,10 @@ export function BudgetAlertBanner({
             </p>
 
             <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-rose-200 dark:bg-rose-950">
-              <div className="h-full bg-rose-600 dark:bg-rose-500 rounded-full" style={{ width: "100%" }} />
+              <div
+                className="h-full bg-rose-600 dark:bg-rose-500 rounded-full"
+                style={{ width: "100%" }}
+              />
             </div>
           </div>
         </div>
@@ -75,7 +80,9 @@ export function BudgetAlertBanner({
           <div className="flex-1">
             <div className="flex items-center justify-between gap-2">
               <h4 className="text-xs font-semibold text-amber-950 dark:text-amber-200">
-                {isSwahili ? "Uangalifu: Asilimia 80 ya Bajeti Imefikiwa" : "Warning: 80% Monthly Budget Threshold Reached"}
+                {isSwahili
+                  ? "Uangalifu: Asilimia 80 ya Bajeti Imefikiwa"
+                  : "Warning: 80% Monthly Budget Threshold Reached"}
               </h4>
               <span className="rounded-md bg-amber-100 dark:bg-amber-900/50 px-2 py-0.5 text-xs font-mono font-semibold text-amber-800 dark:text-amber-300">
                 {percentage.toFixed(1)}%
@@ -89,7 +96,10 @@ export function BudgetAlertBanner({
             </p>
 
             <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-amber-200 dark:bg-amber-950">
-              <div className="h-full bg-amber-500 rounded-full" style={{ width: `${Math.min(100, percentage)}%` }} />
+              <div
+                className="h-full bg-amber-500 rounded-full"
+                style={{ width: `${Math.min(100, percentage)}%` }}
+              />
             </div>
           </div>
         </div>
@@ -110,11 +120,16 @@ export function BudgetAlertBanner({
           </span>
         </div>
 
-        <span className="font-mono text-xs font-semibold text-emerald-800 dark:text-emerald-300">{percentage.toFixed(1)}%</span>
+        <span className="font-mono text-xs font-semibold text-emerald-800 dark:text-emerald-300">
+          {percentage.toFixed(1)}%
+        </span>
       </div>
 
       <div className="mt-2.5 h-1 w-full overflow-hidden rounded-full bg-emerald-200 dark:bg-emerald-950">
-        <div className="h-full bg-emerald-600 dark:bg-emerald-500 rounded-full" style={{ width: `${Math.min(100, percentage)}%` }} />
+        <div
+          className="h-full bg-emerald-600 dark:bg-emerald-500 rounded-full"
+          style={{ width: `${Math.min(100, percentage)}%` }}
+        />
       </div>
     </div>
   );

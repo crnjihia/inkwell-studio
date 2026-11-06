@@ -14,7 +14,9 @@ const compareSchema = z.object({
   context: z.string().optional().default(""),
   language: z.enum(["en", "sw"]).default("en"),
   contentType: z.enum(["blog", "social", "grant_proposal"]).default("blog"),
-  tone: z.enum(["professional", "editorial", "conversational", "urgent"]).default("professional"),
+  tone: z
+    .enum(["professional", "editorial", "conversational", "urgent"])
+    .default("professional"),
   length: z.enum(["short", "medium", "long"]).default("medium"),
 });
 
@@ -36,7 +38,7 @@ export async function POST(req: NextRequest) {
         error: "Validation failed",
         details: parsed.error.flatten().fieldErrors,
       }),
-      { status: 422, headers: { "Content-Type": "application/json" } }
+      { status: 422, headers: { "Content-Type": "application/json" } },
     );
   }
 
@@ -53,8 +55,12 @@ export async function POST(req: NextRequest) {
 
   try {
     let [versionA, versionB] = await Promise.all([
-      db.query.promptVersions.findFirst({ where: eq(promptVersions.id, versionIdA) }).catch(() => null),
-      db.query.promptVersions.findFirst({ where: eq(promptVersions.id, versionIdB) }).catch(() => null),
+      db.query.promptVersions
+        .findFirst({ where: eq(promptVersions.id, versionIdA) })
+        .catch(() => null),
+      db.query.promptVersions
+        .findFirst({ where: eq(promptVersions.id, versionIdB) })
+        .catch(() => null),
     ]);
 
     if (!versionA || !versionB) {
@@ -91,7 +97,7 @@ export async function POST(req: NextRequest) {
     // Helper to run a generation for one version
     async function runVersion(
       version: NonNullable<typeof versionA>,
-      variantName: "A" | "B"
+      variantName: "A" | "B",
     ) {
       const userMessage = version.userPromptTemplate
         .replace("{{topic}}", topic)
@@ -115,15 +121,18 @@ export async function POST(req: NextRequest) {
           if (chunk.type === "text" && chunk.text) {
             outputText += chunk.text;
           } else if (chunk.type === "usage") {
-            if (chunk.inputTokens !== undefined) inputTokens = chunk.inputTokens;
-            if (chunk.outputTokens !== undefined) outputTokens = chunk.outputTokens;
+            if (chunk.inputTokens !== undefined)
+              inputTokens = chunk.inputTokens;
+            if (chunk.outputTokens !== undefined)
+              outputTokens = chunk.outputTokens;
           }
         }
       } else {
         const anthropic = getAnthropicClient();
         const resp = await anthropic.messages.create({
           model: modelId,
-          max_tokens: length === "short" ? 500 : length === "long" ? 2500 : 1200,
+          max_tokens:
+            length === "short" ? 500 : length === "long" ? 2500 : 1200,
           system: version.systemPrompt,
           messages: [{ role: "user", content: userMessage }],
         });
@@ -183,14 +192,13 @@ export async function POST(req: NextRequest) {
           moreEconomical: resultA.costKes <= resultB.costKes ? "A" : "B",
         },
       }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
+      { status: 200, headers: { "Content-Type": "application/json" } },
     );
   } catch (error) {
     console.error("Comparison execution failed:", error);
     return new Response(
       JSON.stringify({ error: "Failed to execute prompt comparison" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
+      { status: 500, headers: { "Content-Type": "application/json" } },
     );
   }
 }
-

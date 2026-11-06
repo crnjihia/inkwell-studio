@@ -10,4 +10,3 @@ export default {
       "postgresql://postgres:postgres@localhost:5432/inkwell_dev",
   },
 } satisfies Config;
-

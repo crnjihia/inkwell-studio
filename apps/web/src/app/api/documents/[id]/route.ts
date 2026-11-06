@@ -14,7 +14,7 @@ const updateDocumentSchema = z.object({
 // GET /api/documents/[id]
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const document = await db.query.documents.findFirst({
@@ -36,7 +36,10 @@ export async function GET(
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.warn("Document GET: Database not reachable, returning synthetic document:", error);
+    console.warn(
+      "Document GET: Database not reachable, returning synthetic document:",
+      error,
+    );
     const syntheticDoc = {
       id: params.id,
       workspaceId: "ws_nairobi_01",
@@ -49,7 +52,9 @@ export async function GET(
           {
             type: "heading",
             attrs: { level: 1 },
-            content: [{ type: "text", text: "Kilimo cha Kisasa Kaunti ya Nakuru" }],
+            content: [
+              { type: "text", text: "Kilimo cha Kisasa Kaunti ya Nakuru" },
+            ],
           },
           {
             type: "paragraph",
@@ -80,7 +85,7 @@ export async function GET(
 // PATCH /api/documents/[id] - Autosave endpoint
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   let body: unknown;
   try {
@@ -99,7 +104,7 @@ export async function PATCH(
         error: "Validation failed",
         details: parsed.error.flatten().fieldErrors,
       }),
-      { status: 422, headers: { "Content-Type": "application/json" } }
+      { status: 422, headers: { "Content-Type": "application/json" } },
     );
   }
 
@@ -142,16 +147,21 @@ export async function PATCH(
       });
     }
 
-    return new Response(JSON.stringify({ document: updatedDoc, savedAt: new Date() }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ document: updatedDoc, savedAt: new Date() }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   } catch (error) {
     console.error("Autosave failed:", error);
-    return new Response(JSON.stringify({ error: "Failed to autosave document" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ error: "Failed to autosave document" }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   }
 }
-

@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 
 export type Language = "en" | "sw";
 
@@ -46,7 +52,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     try {
       localStorage.setItem(STORAGE_KEY, newLang);
       document.documentElement.lang = newLang;
-      window.dispatchEvent(new CustomEvent("inkwell:language", { detail: newLang }));
+      window.dispatchEvent(
+        new CustomEvent("inkwell:language", { detail: newLang }),
+      );
     } catch {
       // Ignore storage errors
     }
@@ -55,7 +63,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   // Synchronize across tabs and custom events
   useEffect(() => {
     const handleStorage = (e: StorageEvent) => {
-      if (e.key === STORAGE_KEY && (e.newValue === "en" || e.newValue === "sw")) {
+      if (
+        e.key === STORAGE_KEY &&
+        (e.newValue === "en" || e.newValue === "sw")
+      ) {
         setLanguageState(e.newValue);
         document.documentElement.lang = e.newValue;
       }
@@ -81,7 +92,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   const t = useCallback(
     (sw: string, en: string) => (language === "sw" ? sw : en),
-    [language]
+    [language],
   );
 
   return (
@@ -95,4 +106,3 @@ export function useLanguage(): LanguageContextType {
   const context = useContext(LanguageContext);
   return context;
 }
-

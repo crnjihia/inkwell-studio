@@ -1,4 +1,11 @@
-import { pgTable, text, timestamp, uuid, varchar, integer } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+  varchar,
+  integer,
+} from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { workspaces, users } from "./users";
 import { documents } from "./documents";
@@ -6,7 +13,9 @@ import { promptVersions } from "./prompts";
 
 export const generations = pgTable("generations", {
   id: uuid("id").defaultRandom().primaryKey(),
-  documentId: uuid("document_id").references(() => documents.id, { onDelete: "set null" }),
+  documentId: uuid("document_id").references(() => documents.id, {
+    onDelete: "set null",
+  }),
   promptVersionId: uuid("prompt_version_id")
     .notNull()
     .references(() => promptVersions.id),
@@ -24,7 +33,9 @@ export const generations = pgTable("generations", {
   latencyMs: integer("latency_ms").default(0).notNull(),
   status: varchar("status", { length: 32 }).default("streaming").notNull(), // 'streaming' | 'completed' | 'failed' | 'cancelled'
   errorMessage: text("error_message"),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
 });
 
 export const generationsRelations = relations(generations, ({ one }) => ({
@@ -45,4 +56,3 @@ export const generationsRelations = relations(generations, ({ one }) => ({
     references: [promptVersions.id],
   }),
 }));
-

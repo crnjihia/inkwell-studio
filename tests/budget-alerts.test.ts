@@ -1,5 +1,8 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { MockEmailNotificationAdapter, mockEmailQueue } from "@/lib/notifications";
+import {
+  MockEmailNotificationAdapter,
+  mockEmailQueue,
+} from "@/lib/notifications";
 
 describe("Phase 8: AI Usage Tracking & Budget Threshold Alerts", () => {
   beforeEach(() => {
@@ -83,4 +86,3 @@ describe("Phase 8: AI Usage Tracking & Budget Threshold Alerts", () => {
     expect(mockEmailQueue[1].body).toContain("Hard-Stop Imewezeshwa");
   });
 });
-

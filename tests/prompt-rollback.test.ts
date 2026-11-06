@@ -24,15 +24,29 @@ describe("Phase 4: Prompt Version Control & Rollback", () => {
     const removals = diff.filter((d) => d.type === "removed");
     const unchanged = diff.filter((d) => d.type === "unchanged");
 
-    expect(unchanged.some((d) => d.text === "Andika kwa Kiswahili sanifu.")).toBe(true);
+    expect(
+      unchanged.some((d) => d.text === "Andika kwa Kiswahili sanifu."),
+    ).toBe(true);
     expect(additions.some((d) => d.text.includes("uchumi na KES"))).toBe(true);
-    expect(removals.some((d) => d.text.includes("masuala ya kijamii"))).toBe(true);
+    expect(removals.some((d) => d.text.includes("masuala ya kijamii"))).toBe(
+      true,
+    );
   });
 
   it("validates that rollback preserves version history immutability", () => {
     const historicalVersions = [
-      { id: "v1", versionNumber: "1.0.0", isActive: false, changeSummary: "Initial version" },
-      { id: "v2", versionNumber: "1.1.0", isActive: true, changeSummary: "Tightened constraints" },
+      {
+        id: "v1",
+        versionNumber: "1.0.0",
+        isActive: false,
+        changeSummary: "Initial version",
+      },
+      {
+        id: "v2",
+        versionNumber: "1.1.0",
+        isActive: true,
+        changeSummary: "Tightened constraints",
+      },
     ];
 
     // Simulating rollback from v2 back to v1
@@ -49,4 +63,3 @@ describe("Phase 4: Prompt Version Control & Rollback", () => {
     expect(updatedVersions).toHaveLength(2);
   });
 });
-

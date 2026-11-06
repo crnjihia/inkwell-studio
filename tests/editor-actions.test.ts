@@ -66,11 +66,15 @@ describe("Phase 3: Editor Controls & AI Block Review", () => {
   });
 
   it("verifies tone and length options support Kenyan creator workflows", () => {
-    const supportedTones = ["professional", "editorial", "conversational", "urgent"];
+    const supportedTones = [
+      "professional",
+      "editorial",
+      "conversational",
+      "urgent",
+    ];
     const supportedLengths = ["short", "medium", "long"];
 
     expect(supportedTones).toContain("editorial");
     expect(supportedLengths).toContain("long");
   });
 });
-
