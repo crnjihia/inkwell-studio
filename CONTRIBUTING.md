@@ -8,7 +8,7 @@ Thank you for contributing to Inkwell Studio! This project is maintained with hi
 - **Zero Secrets in Code**: Secrets and API keys must be loaded exclusively via environment variables. Do not log PII or secrets.
 
 ## Commit Guidelines
-We use [Conventional Commits](https://www.conventionalcommits.org/):
+I use [Conventional Commits](https://www.conventionalcommits.org/):
 - `feat(scope): add feature description`
 - `fix(scope): fix bug description`
 - `docs(scope): documentation update`

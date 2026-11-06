@@ -187,23 +187,6 @@ Expected output:
       Tests  37 passed (37)
 ```
 
----
-
-## Project Roadmap & Phases
-
-- [x] **Phase 0**: Monorepo scaffolding, npm workspaces, Turborepo, CI pipeline
-- [x] **Phase 1**: PostgreSQL & TimescaleDB schema definition with Drizzle ORM
-- [x] **Phase 2**: Anthropic SSE streaming generation API with East African prompts
-- [x] **Phase 3**: Collaborative TipTap editor with token insertion and diff accept/reject
-- [x] **Phase 4**: Prompt version control studio, SemVer audits, line diffing, and rollbacks
-- [x] **Phase 5**: Real-time multi-user document convergence via Cloudflare Durable Objects
-- [x] **Phase 6**: Cloudflare Worker edge layer (Hono, auth verification, token bucket rate limits)
-- [x] **Phase 7**: Static publishing pipeline with Open Graph tags and sub-second cache purge
-- [x] **Phase 8**: TimescaleDB usage tracking, dual-currency accounting, and email budget alerts
-- [x] **Phase 9**: Regional AI safeguards, PII hygiene (M-Pesa/phone redaction), and prompt injection defense
-- [x] **Phase 10**: Dark mode, Linear-inspired design system, global bilingual sync, and test suite
-
----
 
 ## Contributing
 
@@ -214,5 +197,3 @@ Contributions are welcome! Please review [CONTRIBUTING.md](CONTRIBUTING.md) for 
 ## License
 
 Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
-
-© 2026 Chris Odhiambo & Inkwell Studio Contributors.
