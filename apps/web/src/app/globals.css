@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+  }
+
+  * {
+    border-color: rgba(228, 228, 231, 0.8);
+  }
+
+  .dark * {
+    border-color: rgba(39, 39, 42, 0.8);
+  }
+
+  body {
+    @apply bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased selection:bg-zinc-800 selection:text-white dark:selection:bg-zinc-200 dark:selection:text-zinc-900;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* TipTap ProseMirror Typography & Caret Styles (Minimalist Editorial Canvas) */
+.ProseMirror {
+  outline: none;
+  min-height: 480px;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #71717a;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.ProseMirror h1 {
+  @apply text-2xl sm:text-3xl font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight mt-6 mb-3;
+}
+
+.ProseMirror h2 {
+  @apply text-xl sm:text-2xl font-medium text-zinc-900 dark:text-zinc-100 tracking-tight mt-5 mb-2.5;
+}
+
+.ProseMirror h3 {
+  @apply text-lg sm:text-xl font-medium text-zinc-800 dark:text-zinc-200 mt-4 mb-2;
+}
+
+.ProseMirror p {
+  @apply text-sm sm:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4 font-normal;
+}
+
+.ProseMirror ul {
+  @apply list-disc list-outside pl-5 mb-4 space-y-1 text-zinc-600 dark:text-zinc-300;
+}
+
+.ProseMirror ol {
+  @apply list-decimal list-outside pl-5 mb-4 space-y-1 text-zinc-600 dark:text-zinc-300;
+}
+
+.ProseMirror blockquote {
+  @apply border-l-2 border-zinc-300 dark:border-zinc-700 pl-4 italic text-zinc-500 dark:text-zinc-400 my-4 py-1;
+}
+
+/* AI Pending & Streaming Block Highlight */
+.ai-streaming-block {
+  @apply relative rounded-lg border border-indigo-200 dark:border-indigo-900/60 bg-indigo-50/40 dark:bg-indigo-950/20 p-5 transition-all duration-200;
+}
+
+.ai-streaming-pulse {
+  animation: pulse-border 1.8s infinite ease-in-out;
+}
+
+@keyframes pulse-border {
+  0% {
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.1);
+  }
+  50% {
+    border-color: rgba(99, 102, 241, 0.7);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+  100% {
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.1);
+  }
+}
