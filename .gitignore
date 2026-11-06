@@ -16,10 +16,12 @@ out/
 
 # Turborepo Cache
 .turbo/
+**/.turbo/
 
 # Build artifacts
 dist/
 build/
+*.tsbuildinfo
 
 # Environment and Secrets (Never commit secrets)
 .env
