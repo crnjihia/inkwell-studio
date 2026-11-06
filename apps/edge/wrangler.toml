@@ -1,0 +1,19 @@
+name = "inkwell-edge"
+main = "src/index.ts"
+compatibility_date = "2024-04-05"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENVIRONMENT = "development"
+EDGE_RATE_LIMIT_RPM = "60"
+
+# Durable Object for real-time Yjs document collaboration
+[durable_objects]
+bindings = [
+  { name = "DOCUMENT_ROOM", class_name = "DocumentRoom" }
+]
+
+[[migrations]]
+tag = "v1"
+new_classes = ["DocumentRoom"]
+
