@@ -1,0 +1,66 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag (e.g. v0.1.0)"
+        required: true
+        default: "v0.1.0"
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  release:
+    name: Build & Publish GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify Formatting, Types & Tests
+        run: |
+          npx prettier --check "**/*.{ts,tsx,js,jsx,json,md}"
+          npm run typecheck
+          npm run test
+        env:
+          NODE_ENV: test
+          AUTH_MODE: dev
+          AI_MOCK_MODE: "true"
+          APP_TIMEZONE: Africa/Nairobi
+          DEFAULT_CURRENCY: KES
+
+      - name: Package Release Bundles
+        run: |
+          mkdir -p release-dist
+          tar -czf release-dist/inkwell-db-schemas.tar.gz packages/db/src/schema/
+          tar -czf release-dist/inkwell-edge-worker.tar.gz apps/edge/src/ apps/edge/wrangler.toml
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Inkwell Studio ${{ github.ref_name || inputs.tag }}"
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: |
+            release-dist/inkwell-db-schemas.tar.gz
+            release-dist/inkwell-edge-worker.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
