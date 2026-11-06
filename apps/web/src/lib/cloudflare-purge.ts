@@ -30,7 +30,9 @@ export async function purgeCloudflareUrls(urls: string[]): Promise<PurgeResult> 
       );
 
       const latencyMs = Date.now() - startTime;
-      const data = await response.json().catch(() => ({ success: false }));
+      const data = (await response.json().catch(() => ({ success: false }))) as {
+        success?: boolean;
+      };
 
       return {
         success: response.ok && Boolean(data.success),

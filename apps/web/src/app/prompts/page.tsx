@@ -60,6 +60,7 @@ export default function PromptsStudioPage() {
 
   useEffect(() => {
     loadPrompts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const selectedPrompt =
