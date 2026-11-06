@@ -15,10 +15,6 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./apps/web/src"),
       "@inkwell/db": path.resolve(__dirname, "./packages/db/src"),
-      "drizzle-orm": path.resolve(
-        __dirname,
-        "./packages/db/node_modules/drizzle-orm",
-      ),
     },
   },
 });
