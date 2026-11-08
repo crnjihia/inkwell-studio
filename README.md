@@ -1,4 +1,4 @@
-# Inkwell Studio (`inkwell-studio`)
+# Inkwell Studio
 
 > **Production-grade AI content studio with TipTap collaborative editing, prompt version control, TimescaleDB dual-currency usage tracking (KES/USD), edge caching, and regional East African safeguards.**
 
