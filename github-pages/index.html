@@ -187,6 +187,100 @@
         margin-top: clamp(68px, 10vw, 96px);
       }
 
+      .setup {
+        margin-top: 40px;
+        padding: clamp(20px, 4vw, 30px);
+        border: 1px solid #27272a;
+        border-radius: 11px;
+        background: rgb(24 24 27 / 56%);
+      }
+
+      .setup-intro {
+        max-width: 760px;
+        margin: 8px 0 0;
+        color: #a1a1aa;
+        font-size: 12px;
+        line-height: 1.75;
+      }
+
+      .setup-intro strong {
+        color: #e4e4e7;
+        font-weight: 550;
+      }
+
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px 24px;
+        margin: 24px 0 0;
+        padding: 0;
+        list-style: none;
+        counter-reset: setup-step;
+      }
+
+      .steps li {
+        min-width: 0;
+        counter-increment: setup-step;
+      }
+
+      .step-title {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin: 0 0 9px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .step-title::before {
+        display: grid;
+        width: 21px;
+        height: 21px;
+        flex: 0 0 auto;
+        place-items: center;
+        border: 1px solid #3f3f46;
+        border-radius: 50%;
+        color: #d4d4d8;
+        content: counter(setup-step);
+        font-size: 10px;
+      }
+
+      pre {
+        overflow-x: auto;
+        margin: 0;
+        padding: 12px 13px;
+        border: 1px solid #27272a;
+        border-radius: 7px;
+        background: #09090b;
+        color: #d4d4d8;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 10px;
+        line-height: 1.8;
+        white-space: pre;
+      }
+
+      .step-note {
+        margin: 8px 0 0;
+        color: #71717a;
+        font-size: 10px;
+        line-height: 1.6;
+      }
+
+      .setup-footer {
+        margin: 18px 0 0;
+        padding-top: 14px;
+        border-top: 1px solid #27272a;
+        color: #a1a1aa;
+        font-size: 11px;
+        line-height: 1.7;
+      }
+
+      .setup-footer a {
+        color: #e4e4e7;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
       .section-heading {
         margin-bottom: 20px;
       }
@@ -280,6 +374,10 @@
         .grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
+
+        .steps {
+          grid-template-columns: 1fr;
+        }
       }
 
       @media (max-width: 520px) {
@@ -344,6 +442,64 @@
               Explore the Inkwell Studio project
             </a>
           </div>
+        </section>
+
+        <section class="setup" aria-labelledby="setup-title">
+          <div class="section-heading">
+            <h2 id="setup-title">How to run Inkwell Studio</h2>
+            <p>
+              This GitHub Pages site is a static project overview—not the live
+              app.
+            </p>
+            <p class="setup-intro">
+              GitHub Pages only hosts static files. It cannot run the Next.js
+              server, app APIs, database, or collaboration worker, so the editor
+              and dashboards do not run on this page. To use the full app, run
+              the project locally:
+            </p>
+          </div>
+          <ol class="steps">
+            <li>
+              <h3 class="step-title">Install prerequisites</h3>
+              <p class="step-note">
+                Install Node.js 18.17 or newer and Docker Desktop with Docker
+                Compose.
+              </p>
+            </li>
+            <li>
+              <h3 class="step-title">Clone the project and install packages</h3>
+              <pre><code>git clone https://github.com/crnjihia/inkwell-studio.git
+cd inkwell-studio
+npm ci
+Copy-Item .env.example .env</code></pre>
+              <p class="step-note">
+                The last command is for PowerShell. On macOS/Linux, use
+                <code>cp .env.example .env</code>.
+              </p>
+            </li>
+            <li>
+              <h3 class="step-title">Start the database and sample data</h3>
+              <pre><code>npm run docker:up
+npm run migrate --workspace=@inkwell/db
+npm run seed --workspace=@inkwell/db</code></pre>
+            </li>
+            <li>
+              <h3 class="step-title">Start the app</h3>
+              <pre><code>npm run dev</code></pre>
+              <p class="step-note">
+                Open <code>http://localhost:3000</code> for the web app. The
+                local edge worker runs at <code>http://localhost:8787</code>.
+              </p>
+            </li>
+          </ol>
+          <p class="setup-footer">
+            Local defaults enable development authentication and mock AI/email,
+            so external service keys are not needed to get started. For
+            troubleshooting and tests, see the
+            <a href="https://github.com/crnjihia/inkwell-studio#quick-start">
+              repository Quick Start </a
+            >.
+          </p>
         </section>
 
         <section class="features" aria-labelledby="features-title">
