@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Inkwell Studio is an AI-powered writing workspace for East African creators."
+      content="Inkwell Studio is an AI content platform for East African creators, with collaborative editing, prompt versioning, and usage analytics."
     />
     <meta name="theme-color" content="#09090b" />
-    <title>Inkwell Studio — Write with clarity</title>
+    <title>
+      Inkwell Studio — AI Content Platform for East African Creators
+    </title>
     <style>
       :root {
         color-scheme: dark;
@@ -39,7 +41,7 @@
         background:
           radial-gradient(
             ellipse at 50% 0,
-            rgb(16 185 129 / 10%),
+            rgb(16 185 129 / 9%),
             transparent 48%
           ),
           #09090b;
@@ -51,92 +53,91 @@
       }
 
       .shell {
-        width: min(100% - 40px, 1080px);
+        width: min(100% - 40px, 1120px);
         margin-inline: auto;
       }
 
       header {
         display: flex;
+        min-height: 64px;
         align-items: center;
         justify-content: space-between;
-        min-height: 76px;
         border-bottom: 1px solid #27272a;
       }
 
       .brand {
         display: inline-flex;
         align-items: center;
-        gap: 11px;
-        font-size: 15px;
-        font-weight: 650;
+        gap: 10px;
+        font-size: 14px;
+        font-weight: 600;
         letter-spacing: -0.02em;
       }
 
       .brand-mark {
         display: grid;
-        width: 32px;
-        height: 32px;
+        width: 28px;
+        height: 28px;
         place-items: center;
-        border: 1px solid #3f3f46;
-        border-radius: 9px;
-        color: #6ee7b7;
-        font-family: Georgia, serif;
-        font-size: 20px;
+        border-radius: 6px;
+        background: #f4f4f5;
+        color: #09090b;
+        font-size: 14px;
       }
 
       .nav-link {
         color: #a1a1aa;
-        font-size: 13px;
-        transition: color 150ms ease;
+        font-size: 12px;
       }
 
-      .nav-link:hover {
+      .nav-link:hover,
+      .text-link:hover {
         color: #fafafa;
       }
 
       main {
-        padding-block: clamp(72px, 13vw, 144px) 96px;
+        padding-block: clamp(72px, 11vw, 112px) 88px;
       }
 
       .hero {
-        max-width: 760px;
+        max-width: 800px;
         margin-inline: auto;
         text-align: center;
       }
 
-      .eyebrow {
+      .badge {
         display: inline-flex;
         align-items: center;
-        gap: 9px;
-        padding: 7px 12px;
+        gap: 8px;
+        padding: 6px 11px;
         border: 1px solid #27272a;
         border-radius: 999px;
-        background: rgb(24 24 27 / 70%);
-        color: #d4d4d8;
-        font-size: 12px;
+        background: rgb(24 24 27 / 75%);
+        color: #a1a1aa;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 11px;
       }
 
       .status-dot {
-        width: 7px;
-        height: 7px;
+        width: 6px;
+        height: 6px;
         border-radius: 50%;
-        background: #34d399;
-        box-shadow: 0 0 12px rgb(52 211 153 / 55%);
+        background: #10b981;
       }
 
       h1 {
-        margin: 26px 0 0;
-        font-size: clamp(42px, 8vw, 72px);
-        font-weight: 650;
-        letter-spacing: -0.065em;
-        line-height: 1.04;
+        margin: 25px 0 0;
+        font-size: clamp(40px, 7vw, 64px);
+        font-weight: 600;
+        letter-spacing: -0.06em;
+        line-height: 1.08;
       }
 
       .intro {
-        max-width: 630px;
-        margin: 22px auto 0;
+        max-width: 690px;
+        margin: 20px auto 0;
         color: #a1a1aa;
-        font-size: clamp(16px, 2.4vw, 19px);
+        font-size: clamp(15px, 2vw, 17px);
         line-height: 1.75;
       }
 
@@ -144,103 +145,153 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 12px;
-        margin-top: 32px;
+        gap: 10px;
+        margin-top: 28px;
       }
 
       .button {
         display: inline-flex;
-        min-height: 44px;
+        min-height: 38px;
         align-items: center;
         justify-content: center;
-        gap: 9px;
-        padding: 0 17px;
+        gap: 8px;
+        padding: 0 14px;
         border: 1px solid #3f3f46;
-        border-radius: 8px;
+        border-radius: 7px;
         background: #18181b;
-        font-size: 13px;
+        color: #e4e4e7;
+        font-size: 12px;
         font-weight: 550;
         transition:
-          transform 150ms ease,
-          background 150ms ease,
-          border-color 150ms ease;
+          border-color 150ms ease,
+          background 150ms ease;
       }
 
       .button:hover {
-        transform: translateY(-1px);
         border-color: #52525b;
         background: #27272a;
       }
 
       .button-primary {
-        border-color: #a7f3d0;
-        background: #a7f3d0;
-        color: #052e25;
+        border-color: #f4f4f5;
+        background: #f4f4f5;
+        color: #09090b;
       }
 
       .button-primary:hover {
-        border-color: #6ee7b7;
-        background: #6ee7b7;
+        border-color: #d4d4d8;
+        background: #d4d4d8;
       }
 
       .features {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 14px;
-        margin-top: clamp(64px, 10vw, 104px);
+        margin-top: clamp(68px, 10vw, 96px);
       }
 
-      .feature {
-        min-height: 178px;
-        padding: 22px;
-        border: 1px solid #27272a;
-        border-radius: 12px;
-        background: linear-gradient(
-          145deg,
-          rgb(24 24 27 / 86%),
-          rgb(9 9 11 / 65%)
-        );
-      }
-
-      .feature-icon {
-        color: #6ee7b7;
-        font-size: 17px;
+      .section-heading {
+        margin-bottom: 20px;
       }
 
       h2 {
-        margin: 17px 0 8px;
-        font-size: 15px;
+        margin: 0;
+        font-size: 18px;
         font-weight: 600;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.03em;
       }
 
-      .feature p {
+      .section-heading p {
+        margin: 7px 0 0;
+        color: #71717a;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .card {
+        min-height: 172px;
+        padding: 19px;
+        border: 1px solid #27272a;
+        border-radius: 11px;
+        background: rgb(24 24 27 / 56%);
+      }
+
+      .icon {
+        display: grid;
+        width: 30px;
+        height: 30px;
+        place-items: center;
+        border: 1px solid #3f3f46;
+        border-radius: 6px;
+        background: #18181b;
+        color: #d4d4d8;
+        font-size: 14px;
+      }
+
+      h3 {
+        margin: 13px 0 6px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+
+      .card p {
         margin: 0;
         color: #a1a1aa;
-        font-size: 13px;
-        line-height: 1.65;
+        font-size: 11px;
+        line-height: 1.7;
+      }
+
+      .card-footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 14px;
+        padding-top: 10px;
+        border-top: 1px solid #27272a;
+        color: #71717a;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 10px;
+      }
+
+      .text-link {
+        color: #d4d4d8;
+        font-family: inherit;
       }
 
       footer {
-        padding-block: 22px;
+        padding-block: 20px;
         border-top: 1px solid #27272a;
         color: #71717a;
-        font-size: 12px;
+        font-size: 11px;
       }
 
       .footer-content {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        gap: 12px;
+        gap: 10px;
       }
 
-      @media (max-width: 700px) {
-        .features {
+      @media (max-width: 760px) {
+        .grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 520px) {
+        .shell {
+          width: min(100% - 32px, 1120px);
+        }
+
+        .grid {
           grid-template-columns: 1fr;
         }
 
-        .feature {
+        .card {
           min-height: auto;
         }
       }
@@ -259,7 +310,7 @@
     <div class="shell">
       <header>
         <a class="brand" href="./" aria-label="Inkwell Studio home">
-          <span class="brand-mark" aria-hidden="true">i</span>
+          <span class="brand-mark" aria-hidden="true">✎</span>
           <span>Inkwell Studio</span>
         </a>
         <a
@@ -268,78 +319,147 @@
           rel="noopener noreferrer"
           target="_blank"
         >
-          View on GitHub ↗
+          View source on GitHub ↗
         </a>
       </header>
 
       <main>
         <section class="hero" aria-labelledby="page-title">
-          <div class="eyebrow">
+          <div class="badge">
             <span class="status-dot" aria-hidden="true"></span>
-            Made for East African creators
+            🇰🇪 Nairobi Studio · East Africa
           </div>
-          <h1 id="page-title">
-            Write with clarity.<br />Create with confidence.
-          </h1>
+          <h1 id="page-title">Inkwell Studio</h1>
           <p class="intro">
-            An AI-powered writing workspace for essays and proposals in English
-            and Swahili—with collaborative editing, versioned prompts, and
-            thoughtful usage controls.
+            Minimalist AI content platform for East African creators. Stream
+            essays and grant proposals in English and Swahili with collaborative
+            editing, prompt versioning, and edge caching.
           </p>
           <div class="actions">
-            <a class="button button-primary" href="https://inkwell.studio/">
-              Open Inkwell Studio <span aria-hidden="true">→</span>
-            </a>
             <a
-              class="button"
+              class="button button-primary"
               href="https://github.com/crnjihia/inkwell-studio"
-              rel="noopener noreferrer"
-              target="_blank"
             >
-              Explore the project
+              <span aria-hidden="true">↗</span>
+              Explore the Inkwell Studio project
             </a>
           </div>
         </section>
 
-        <section class="features" aria-label="Studio features">
-          <article class="feature">
-            <span class="feature-icon" aria-hidden="true">✦</span>
-            <h2>AI-assisted writing</h2>
+        <section class="features" aria-labelledby="features-title">
+          <div class="section-heading">
+            <h2 id="features-title">Architectural Pillars</h2>
             <p>
-              Stream drafts into a focused editor and shape them to your tone,
-              length, and language.
+              Engineered with Cloudflare Workers edge caching, Yjs Durable
+              Objects, and TimescaleDB telemetry.
             </p>
-          </article>
-          <article class="feature">
-            <span class="feature-icon" aria-hidden="true">◎</span>
-            <h2>Work together</h2>
-            <p>
-              Collaborate on shared documents with real-time updates and
-              presence.
-            </p>
-          </article>
-          <article class="feature">
-            <span class="feature-icon" aria-hidden="true">↗</span>
-            <h2>Stay in control</h2>
-            <p>
-              Track prompt versions and monitor usage in Kenyan Shillings and US
-              Dollars.
-            </p>
-          </article>
+          </div>
+          <div class="grid">
+            <article class="card">
+              <span class="icon" aria-hidden="true">✦</span>
+              <h3>Streaming TipTap Co-Authoring</h3>
+              <p>
+                Stream Anthropic tokens directly into the ProseMirror editor
+                with diff block accept/reject actions and regional Swahili
+                prompt injection.
+              </p>
+              <div class="card-footer">
+                <span>Phase 2 &amp; 3</span>
+                <a
+                  class="text-link"
+                  href="https://github.com/crnjihia/inkwell-studio/tree/main/apps/web/src/app/editor"
+                >
+                  Editor ↗
+                </a>
+              </div>
+            </article>
+            <article class="card">
+              <span class="icon" aria-hidden="true">◎</span>
+              <h3>Durable Object Collaboration</h3>
+              <p>
+                Multi-user CRDT document collaboration powered by Cloudflare
+                Durable Objects and Yjs awareness presence.
+              </p>
+              <div class="card-footer">
+                <span>Phase 5</span>
+                <span>CRDT Convergent</span>
+              </div>
+            </article>
+            <article class="card">
+              <span class="icon" aria-hidden="true">⌘</span>
+              <h3>Prompt Version Control &amp; Rollback</h3>
+              <p>
+                Semantic versioning for system prompts with visual line diffs,
+                A/B output comparison, and non-destructive rollbacks.
+              </p>
+              <div class="card-footer">
+                <span>Phase 4</span>
+                <a
+                  class="text-link"
+                  href="https://github.com/crnjihia/inkwell-studio/tree/main/apps/web/src/app/prompts"
+                >
+                  Prompts ↗
+                </a>
+              </div>
+            </article>
+            <article class="card">
+              <span class="icon" aria-hidden="true">◎</span>
+              <h3>Static Publishing &amp; Edge Cache</h3>
+              <p>
+                Publish articles with Open Graph metadata and JSON-LD, backed by
+                sub-second edge cache purging.
+              </p>
+              <div class="card-footer">
+                <span>Phase 6 &amp; 7</span>
+                <span>&lt;1000ms SLA</span>
+              </div>
+            </article>
+            <article class="card">
+              <span class="icon" aria-hidden="true">◷</span>
+              <h3>Usage Analytics &amp; KES Budgets</h3>
+              <p>
+                Dual-currency token cost rollups via Timescale hypertables, with
+                continuous aggregates and budget threshold alerts.
+              </p>
+              <div class="card-footer">
+                <span>Phase 8</span>
+                <a
+                  class="text-link"
+                  href="https://github.com/crnjihia/inkwell-studio/tree/main/apps/web/src/app/usage"
+                >
+                  Usage ↗
+                </a>
+              </div>
+            </article>
+            <article class="card">
+              <span class="icon" aria-hidden="true">◇</span>
+              <h3>PII Hygiene &amp; Injection Defense</h3>
+              <p>
+                Prompt injection sanitization, bilingual moderation, and
+                automatic redaction of Kenyan phone numbers and M-Pesa receipts.
+              </p>
+              <div class="card-footer">
+                <span>Phase 9</span>
+                <span>Privacy by design</span>
+              </div>
+            </article>
+          </div>
         </section>
       </main>
 
       <footer>
         <div class="footer-content">
-          <span>© <span id="year">2026</span> Inkwell Studio</span>
-          <span>Built for writers across East Africa · Nairobi, Kenya</span>
+          <span>Inkwell Studio · Nairobi, Kenya</span>
+          <a
+            class="nav-link"
+            href="https://github.com/crnjihia/inkwell-studio"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            GitHub repository ↗
+          </a>
         </div>
       </footer>
     </div>
-    <script>
-      document.getElementById("year").textContent = String(
-        new Date().getFullYear(),
-      );
-    </script>
   </body>
 </html>

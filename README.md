@@ -169,7 +169,7 @@ npm run dev
 
 ## Public landing page
 
-The project landing page is published at [crnjihia.github.io/inkwell-studio](https://crnjihia.github.io/inkwell-studio/) by the GitHub Pages workflow. It links to the full studio at [inkwell.studio](https://inkwell.studio/). GitHub Pages serves static files only; the Next.js application and its API routes require a server-capable deployment.
+The project landing page is published at [crnjihia.github.io/inkwell-studio](https://crnjihia.github.io/inkwell-studio/) by the GitHub Pages workflow. It describes the Inkwell Studio project in this repository. GitHub Pages serves static files only; the interactive Next.js application and its API routes require a server-capable deployment.
 
 ---
 
