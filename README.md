@@ -167,6 +167,10 @@ npm run dev
 - **Web Studio**: [http://localhost:3000](http://localhost:3000)
 - **Edge Worker (Miniflare)**: [http://localhost:8787](http://localhost:8787)
 
+## Public landing page
+
+The project landing page is published at [crnjihia.github.io/inkwell-studio](https://crnjihia.github.io/inkwell-studio/) by the GitHub Pages workflow. It links to the full studio at [inkwell.studio](https://inkwell.studio/). GitHub Pages serves static files only; the Next.js application and its API routes require a server-capable deployment.
+
 ---
 
 ## Verification & Testing
